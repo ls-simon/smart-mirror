@@ -1,0 +1,38 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: black;
+  color: wheat;
+
+}
+
+.header { font: 35px "Lucida Grande" }
+.content { font: 20px "Lucida Grande"}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateY(300%);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+.message {
+  position: center;
+  width: 600px;
+  font-weight: bold;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-name: slideInFromLeft;
+
+}
+
+
+a {
+  color: #00B7FF;
+}

@@ -1,0 +1,12 @@
+applications:
+- path: .
+  memory: 256M
+  instances: 1
+  domain: eu-gb.mybluemix.net
+  name: SimonsNodeJSTestApp
+  host: SimonsNodeJSTestApp
+  disk_quota: 1024M
+  services:
+    - STT-1511
+    - TTS-1511
+    - CS-1511

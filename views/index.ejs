@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+  <script src="/js/watson-speech.js"></script>
+  <script src="/js/bundle.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel='stylesheet' href='/stylesheets/style.css'/>
+
+
+
+</head>
+<body>
+<div id="play"  class="btn btn-primary">Play</div><br>
+<div id="mic"  class="btn btn-secondary">Mic</div>
+<div id="readTxt" class="btn btn-secondary">ReadTxt</div>
+<textarea id="txtArea"></textarea>
+<div class="row"><div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="audioParent">
+    </div>
+  </div></div>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-2">
+      <div id="btnSendMessage" class="btn btn-primary">Send to Chatbot</div>
+      <div id="btnClassifyImage" class="btn btn-primary">Classify</div>
+    </div>
+    <div class="col-sm-2">
+
+      <div id="conversationFrame">
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div id="chat"></div>
+<div class="message">
+  <div class="header">Allison</div><br>
+  <div class="content">Hello!</div>
+</div>
+
+
+
+</body>
+</html>
