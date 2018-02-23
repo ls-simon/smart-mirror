@@ -1,5 +1,5 @@
 var VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v3');
-var credentials = require('../credentials.json');
+var credentials = require('../watson_environment.json');
 var fs = require('fs');
 
 exports.classifyImage = function (request, response) {

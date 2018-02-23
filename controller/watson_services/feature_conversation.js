@@ -1,5 +1,5 @@
 var ConversationV1 = require('watson-developer-cloud/conversation/v1');
-var credentials = require('./../credentials.json');
+var credentials = require('../watson_environment.json');
 var textToSpeech = require('./feature_textToSpeech');
 var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 var toneDetection = require('./feature_toneAnalyzer');

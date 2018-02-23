@@ -4,11 +4,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var indexRoutes = require('./routes/index');
-var watsonServicesRoutes = require('./routes/watsonServices');
 var app = express();
 
-// view engine setup
+// ROUTES
+var indexRoutes = require('./routes/index');
+var watsonServicesRoutes = require('./routes/watsonServices');
+var utilsRoutes = require('./routes/utils');
+app.use('/watson', watsonServicesRoutes);
+app.use('/', indexRoutes);
+app.use('/utils', utilsRoutes);
+
+
+// VIEW ENGINE
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(logger('dev'));
@@ -17,8 +24,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static('public'));
 
-app.use('/watson', watsonServicesRoutes);
-app.use('/', indexRoutes);
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

@@ -1,7 +1,7 @@
 var extend = require('extend');
 var watson = require('watson-developer-cloud');
 var vcapServices = require('vcap_services');
-var credentials = require('../credentials.json');
+var credentials = require('../watson_environment.json');
 var fs = require('fs');
 
 
