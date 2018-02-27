@@ -3,7 +3,7 @@ var watson = require('watson-developer-cloud');
 var vcapServices = require('vcap_services');
 var credentials = require('../watson_environment.json');
 var fs = require('fs');
-
+var now, timeStamp;
 
 exports.synthesizeAndWrite = function (req, res) {
     console.log("SynthWrite " + req.body.text)
@@ -15,7 +15,6 @@ exports.synthesizeAndWrite = function (req, res) {
         url: 'https://stream.watsonplatform.net/text-to-speech/api/'
     });
 
-    // var text = responseMessage ? JSON.stringify(responseMESSAGE.MESSAGE) : req.body.text;
     var params = {
         text: req.body.text,
         voice: 'en-US_AllisonVoice',
@@ -33,10 +32,13 @@ exports.synthesizeAndWrite = function (req, res) {
             }
 
             textToSpeech.repairWavHeader(audio);
-            console.log("ID : ")
-            fs.writeFileSync('public/audio'+req.body.conversationId+'.wav', audio);
-            console.log('audio.wav written with a corrected wav header');
-            res.send("file-ready");
+            now = new Date();
+            var timeStamp = Math.floor(now.getTime() + now.getHours() + now.getSeconds() + now.getMilliseconds() / 1000);
+            var filePath = 'public/audio/audio'+timeStamp+'.wav';
+            fs.writeFileSync(filePath, audio);
+            var response = {}; response.filePath = filePath;
+            console.log(filePath + ' written with a corrected wav header');
+            res.send(response);
         });
 
 }

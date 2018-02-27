@@ -3,29 +3,23 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "browserify public/js/conversation.js -o public/js/bundle.js",
     "start": "node ./bin/www"
   },
   "dependencies": {
     "bluebird": "^3.5.1",
-    "body-parser": "~1.18.2",
+    "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0",
-    "browserify": "^16.1.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "express": "~4.15.5",
     "extend": "^3.0.1",
-    "jquery": "^3.3.1",
     "morgan": "~1.9.0",
     "nodemon": "^1.14.12",
     "raspicam": "^0.2.14",
     "request": "^2.83.0",
-    "serve-favicon": "~2.4.5",
+    "serve-favicon": "^2.4.5",
     "vcap_services": "^0.3.4",
     "watson-developer-cloud": "^3.0.6"
-  },
-  "devDependencies": {
-    "webpack": "^3.11.0"
   }
 }

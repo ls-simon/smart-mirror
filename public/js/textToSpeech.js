@@ -1,19 +1,15 @@
-'use strict';
-var $ = require('jquery');
-$(document).ready(function(){
 
-})
     var txtArea = $('#txtArea');
-    var mic = $('#mic');
+
     var play = $('#play');
     var stream = null;
     var readText = $('#readTxt')
     var conversationId = 0;
+    var mic = $('#mic');
     mic.addClass("mic_enabled");
 
 
-// SPEECH TO TEXT RECORDING
-    mic.on("click", function () {
+    var setMicState = function () {
         var state = this.className;
         if (state.indexOf("mic_disabled") != -1) {
             if (!((typeof(stream) == "undefined") || (stream == null))) {
@@ -29,21 +25,23 @@ $(document).ready(function(){
             console.log("recording..");
             mic.addClass("mic_disabled");
             mic.removeClass("mic_enabled");
-
-            $.when($.get('/watson/speechToTextToken')).done(
-                function (token) {
-                    stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
-                        token: token, outputElement: '#txtArea'
-                    });
-
-                    stream.on('error', function (err) {
-                        console.log("Error in streaming speech to text: " + err);
-                    });
-                });
         }
-    });
+        return mic.attr('class').val()
 
-// TEXT TO SPEECH
+    };
+
+    function invokeSpeechToText(e) {
+        e.preventDefault()
+        $.when($.get('/watson/speechToTextToken')).done(function (token) {
+            stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+                token: token, outputElement: '#txtArea'
+            });
+
+            stream.on('error', function (err) {
+                console.log("Error in streaming speech to text: " + err);
+            });
+        });
+    };
 
     var invokeTextToSpeech = function (payload) {
         console.log(payload + " payload");
@@ -64,11 +62,8 @@ $(document).ready(function(){
             data: JSON.stringify(data),
             contentType: 'application/json',
             url: 'http://localhost:6005/watson/textToSpeechInput',
-            success: function (data) {
-                if (data == "file-ready") {
-                    appendAndPlayAudioFile()
-                    return true;
-                }
+            success: function (response) {
+                appendAndPlayAudioFile(response.filePath);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 if (xhr.status == 200) {
@@ -84,13 +79,9 @@ $(document).ready(function(){
     }
 
 
-    function appendAndPlayAudioFile() {
-        $('.audioParent').append('<audio controls autoplay class="player"><source class="audiosource" type="audio/wav">\n' +
+    function appendAndPlayAudioFile(filePath) {
+        $('.audioParent').append('<audio controls autoplay class="player"><source class="audiosource" src="'+filePath.substr(6)+'" type="audio/wav">\n' +
             '        Your browser does not support the audio element.\n' +
             '    </audio>\n' +
             '    </div>')
-
-        $('.audiosource').attr("src", 'audio' + conversationId + '.wav');
     }
-
-module.exports = invokeTextToSpeech;

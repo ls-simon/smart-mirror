@@ -23,12 +23,12 @@ var toneAnalyzer = new ToneAnalyzerV3({
 
 
 
-exports.getResponse = function(req, res, next){
+exports.getResponse = function(req, res){
 
     var inputData = {
         input: { text: JSON.stringify(req.body.message) },
-        workspace_id: credentials.conversations.workspace};
-
+        workspace_id: credentials.conversations.workspace
+    };
 
     var maintainToneHistoryInContext = true;
 
@@ -38,7 +38,8 @@ exports.getResponse = function(req, res, next){
             tone,
             maintainToneHistoryInContext
         );
-    console.log("getResponse : " + JSON.stringify(req.body.message))
+
+    console.log("getResponse : " + JSON.stringify(req.body.message));
 
     conversation.message( inputData,
         function(err, response) {
@@ -52,4 +53,4 @@ exports.getResponse = function(req, res, next){
         }
     );
 });
-}
+};
