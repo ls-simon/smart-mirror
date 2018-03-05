@@ -13,22 +13,25 @@ var classifierOptions = {
     threshold: 0.4
 };
 
-exports.classifyImage = function (request, response) {
+exports.classifyImage = function (req, res) {
 
 
+var filePath = JSON.stringify(req.body.filePath.replace("\n", ""));
+console.log(filePath);
+// 'public/images/webcamImage.jpg'
 var params = {
-    images_file: fs.createReadStream('public/images/webcamImage.jpg'),
+    images_file: fs.createReadStream(filePath),
     parameters: classifierOptions
 };
 
 
-visualRecognition.classify(params, function(err, res) {
+visualRecognition.classify(params, function(err, response) {
     if (err) {
         console.log("Error classifying image: " +err);
 
     } else {
-        console.log(JSON.stringify(res, null, 2));
-        response.send(res);
+        console.log(JSON.stringify(response, null, 2));
+        res.send(response);
     }
 });
 

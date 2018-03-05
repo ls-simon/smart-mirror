@@ -1,20 +1,28 @@
 var RaspiCam = require("raspicam");
+var shell = require('shelljs');
+
+var now, timeStamp, path, camera;
 
 
-var now = new Date();
-var timeStamp = (now.getTime() + now.getHours() + now.getMinutes() + now.getSeconds() / 1000);
-var path = "public/snapshots/snapshot"+timeStamp+".jpg";
 
-var camera = new RaspiCam({
-    mode: "photo",
-    output: path,
-    encoding: "jpg",
-    thumb: "300:400:40"
-});
 
 
 exports.takeSnapshot = function(req, res){
     console.log("Taking picture..")
-    camera.start();
+    //camera.start();
+    //raspistill -vf -hf ./../../public/images/snapshots/$DATE.jpg
+     //now = new Date();
+    // timeStamp = Math.floor(now.getTime() + now.getHours() + now.getMinutes() + now.getSeconds() / 1000);
+
+    var filename = runRaspiCamScript();
+    path = "public/snapshots/snapshot"+filename+".jpg";
+
     res.send(path);
 };
+
+function runRaspiCamScript(){
+    shell.exec('chmod +x ./controller/utils/picam.sh');
+    return shell.exec('sh ./controller/utils/picam.sh').stdout;
+
+    //return script;
+}

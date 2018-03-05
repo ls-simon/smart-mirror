@@ -12,8 +12,6 @@ var invokeConversation = function (internalMessage) {
     req.message = message;
     var data = JSON.stringify(req);
     console.log('btn clicked, message: ' + JSON.stringify(req));
-    var obj = {};
-    obj.message = "test";
 
 
     //$.post('/watson/conversationMessage', JSON.stringify(obj));
@@ -32,7 +30,12 @@ var invokeConversation = function (internalMessage) {
             console.log("Response from server " + textResponse);
             if (textResponse == '"pictureAnalyzeRequest"') {
                 $.when($.get('/utils/takeSnapshot')).done(function (filePath) {
-                    $.when($.post('/watson/classifyImage', filePath)).done(function (classificationResult) {
+                  console.log(filePath);
+                  var reqi = {};
+                  reqi.filePath = filePath;
+                  var dati = JSON.stringify(reqi);
+                  console.log(dati);
+                    $.when($.post('/watson/classifyImage', reqi)).done(function (classificationResult) {
                         var classResult = 'analyzationCompleteWithResults ' +
                             (classificationResult.images[0].classifiers[0].classes[0].class);
                         console.log(classResult);
@@ -70,6 +73,3 @@ function appendResponse(textResponse, tone){
         '<div> You are ' + (tone[0]) + ' in your voice.</div>');
 
 }
-
-
-

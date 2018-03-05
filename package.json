@@ -19,6 +19,7 @@
     "raspicam": "^0.2.14",
     "request": "^2.83.0",
     "serve-favicon": "^2.4.5",
+    "shelljs": "^0.8.1",
     "vcap_services": "^0.3.4",
     "watson-developer-cloud": "^3.0.6"
   }

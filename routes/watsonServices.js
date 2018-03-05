@@ -8,6 +8,6 @@ var bodyParser = require('body-parser');
 router.get('/speechToTextToken*', speechToText.token);
 router.post('/textToSpeechInput',speechToText.synthesizeAndWrite);
 router.post('/conversationMessage', conversation.getResponse);
-router.get('/classifyImage', visualRecog.classifyImage);
+router.post('/classifyImage', visualRecog.classifyImage);
 
 module.exports = router;
