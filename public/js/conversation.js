@@ -29,13 +29,13 @@ var invokeConversation = function (internalMessage) {
 
             console.log("Response from server " + textResponse);
             if (textResponse == '"pictureAnalyzeRequest"') {
-                $.when($.get('/utils/takeSnapshot')).done(function (filePath) {
-                  console.log(filePath);
-                  var reqi = {};
-                  reqi.filePath = filePath;
-                  var dati = JSON.stringify(reqi);
-                  console.log(dati);
-                    $.when($.post('/watson/classifyImage', reqi)).done(function (classificationResult) {
+                $.when($.get('/utils/takeSnapshot')).done(function (data) {
+                  console.log(data);
+
+                  var snapshot = {};
+                  snapshot.filePath = data.filePath;
+
+                    $.when($.post('/watson/classifyImage', snapshot)).done(function (classificationResult) {
                         var classResult = 'analyzationCompleteWithResults ' +
                             (classificationResult.images[0].classifiers[0].classes[0].class);
                         console.log(classResult);
