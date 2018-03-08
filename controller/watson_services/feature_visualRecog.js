@@ -17,10 +17,8 @@ exports.classifyImage = function (req, res) {
 
 console.log("REQ BODY " + req.body.filePath);
 
-//var filePath = req.body.filePath;
-// 'public/images/webcamImage.jpg'
 var params = {
-    images_file: fs.createReadStream("filePath"),
+    images_file: fs.createReadStream(req.body.filePath),
     parameters: classifierOptions
 };
 

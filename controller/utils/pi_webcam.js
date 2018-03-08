@@ -14,10 +14,10 @@ exports.takeSnapshot = function(req, res){
      //now = new Date();
     // timeStamp = Math.floor(now.getTime() + now.getHours() + now.getMinutes() + now.getSeconds() / 1000);
 
-    var filename = runRaspiCamScript();
+var filename = runRaspiCamScript();
     var data = {};
 
-    filePath = ('public/snapshots/snapshot'+filename+'.jpg').replace("\n", "");
+    filePath = ('public/snapshots/'+filename+'.jpg').replace("\n", "");
     data.filePath = filePath;
       console.log("FILENAME: " + filePath)
 
@@ -25,8 +25,8 @@ exports.takeSnapshot = function(req, res){
 };
 
 function runRaspiCamScript(){
-    shell.exec('chmod +x ./controller/utils/picam.sh');
-    return shell.exec('sh ./controller/utils/picam.sh').stdout;
+	
+     var filePath = shell.exec('sh ./controller/utils/picam.sh').stdout;
 
-    //return script;
+    return filePath;
 }
