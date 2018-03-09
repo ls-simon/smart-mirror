@@ -1,75 +1,75 @@
-var btnSendMessage = $('#btnSendMessage');
 
-var invokeConversation = function (internalMessage) {
-    var textResponse, tone;
+let textResponse, analyzedTone, message;
+const SNAPSHOT_ANALYZATION_REQUEST = "pictureAnalyzeRequest";
+const INTERPRET_AS_CLASSIFICATION = 'analyzationCompleteWithResults';
 
-    var message = typeof internalMessage == "string" ? internalMessage : $('#txtArea').val();
-
-    if (!message) {
-        message = "test";
+var sendMessage = function (actionMessage) {
+    message = setMessageToInputOrAction(actionMessage);
+    var request = {};
+    request.message = message;
+    sendAjaxRequest("POST", '/watson/conversationMessage', JSON.stringify(request));
     }
-    var req = {};
-    req.message = message;
-    var data = JSON.stringify(req);
-    console.log('btn clicked, message: ' + JSON.stringify(req));
+
+function setMessageToInputOrAction(actionMessage){
+typeof actionMessage == "string" ? message = actionMessage : message = $('#fieldMessageInput').val();
+return message;
+}
 
 
-    //$.post('/watson/conversationMessage', JSON.stringify(obj));
-    $.ajax({
-        type: "POST",
-        data: data,
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        url: "/watson/conversationMessage",
-        success: function (response) {
-            textResponse = JSON.stringify(response.response.output.text[0]);
-            tone = response.tone.document_tone.tones.map(function (value) {
-                return value.tone_id
-           });
+function processResponse(response, url){
+  switch (url){
+    case '/watson/classifyImage': setClassificationResult(response, url)
+    break;
+    case '/watson/conversationMessage': setResponseAndToneResults(response, url)
+    break;
+    default:
+    console.error("This is not a valid route")
+    break;
+  }
+}
 
-            console.log("Response from server " + textResponse);
-            if (textResponse == '"pictureAnalyzeRequest"') {
-                $.when($.get('/utils/takeSnapshot')).done(function (data) {
-                  console.log(data);
+function setResponseAndToneResults(response) {
+    textResponse = JSON.stringify(response.response.output.text[0]);
+    analyzedTone = response.tone.document_tone.tones.map(function (value) {
+        return value.tone_id
+   });
 
-                  var snapshot = {};
-                  snapshot.filePath = data.filePath;
+   handleResponseAsActionOrMessage();
+ }
 
-                    $.when($.post('/watson/classifyImage', snapshot)).done(function (classificationResult) {
-                        var classResult = 'analyzationCompleteWithResults ' +
-                            (classificationResult.images[0].classifiers[0].classes[0].class);
-                        console.log(classResult);
-                        invokeConversation("pictureAnalyzeRequest analyzationCompleteWithResults " + classResult);
-                    })
-                })
+ function handleResponseAsActionOrMessage(){
+   if (textResponse.indexOf(SNAPSHOT_ANALYZATION_REQUEST) != -1){
+     takeSnapshotAndSendToClassifier();
+   } else {
+     appendResponse();
+   }
+   }
 
 
-            } else {
-                invokeTextToSpeech(textResponse);
-                appendResponse(textResponse, tone);
-            }
-        }
-        ,
-        error: function (xhr, ajaxOptions, thrownError) {
-            //On error do this
-            if (xhr.status == 200) {
-                alert(ajaxOptions);
-            }
-            else {
-                console.log(xhr.status);
-                console.log(thrownError);
-            }
-        }
+function appendResponse(){
+  invokeTextToSpeech(textResponse);
+  appendResponseInChatWindow();
+}
+
+function setClassificationResult(responseText){
+var classificationResults = classificationResult.images[0].classifiers[0].classes[0].class;
+var classificationResponseMessage = INTERPRET_AS_CLASSIFICATION + ' ' + classificationResults;
+sendMessage(classificationResponseMessage);
+}
+
+
+function takeSnapshotAndSendToClassifier(){
+  $.get('/utils/takeSnapshot').done(function (snapshot) {
+      sendAjaxRequest('POST' ,'/watson/classifyImage', JSON.stringify(snapshot));
     })
 }
 
 
-function appendResponse(textResponse, tone){
+function appendResponseInChatWindow(){
     $(".message").remove();
     $("#chat").append('<div class="message">' +
         '  <div class="header">Allison</div><br>' +
         '  <div class="content">' + textResponse + '</div>' +
         '</div><br>' +
-        '<div> You are ' + (tone[0]) + ' in your voice.</div>');
-
+        '<div> You are ' + (analyzedTone[0]) + ' in your voice.</div>');
 }

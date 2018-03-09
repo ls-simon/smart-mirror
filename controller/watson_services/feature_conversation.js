@@ -3,9 +3,9 @@ var credentials = require('../watson_environment.json');
 var textToSpeech = require('./feature_textToSpeech');
 var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 var toneDetection = require('./feature_toneAnalyzer');
+const maintainToneHistoryInContext = true;
 
 var conversation = new ConversationV1({
-    //use_unauthenticated: true,
     username: credentials.conversations.username,
     password: credentials.conversations.password,
     url: credentials.conversations.url,
@@ -18,37 +18,25 @@ var toneAnalyzer = new ToneAnalyzerV3({
     version_date: credentials.tone_analyzer.version
 })
 
-
-
-
-
-
 exports.getResponse = function(req, res){
-
     var inputData = {
         input: { text: JSON.stringify(req.body.message) },
         workspace_id: credentials.conversations.workspace
     };
 
-    var maintainToneHistoryInContext = true;
-
-        toneDetection.invokeToneAsync(inputData, toneAnalyzer).then(function (tone) {
+    toneDetection.invokeToneAsync(inputData, toneAnalyzer).then(function (tone) {
             toneDetection.updateUserTone(
             inputData,
             tone,
             maintainToneHistoryInContext
         );
 
-    console.log("getResponse : " + JSON.stringify(req.body.message));
-
     conversation.message( inputData,
         function(err, response) {
             if (err) {
-                console.error(err);
+                console.error("Error sending message: " + err);
             } else {
-                console.log(JSON.stringify(response.output.text));
                 res.send({response: response, tone: tone});
-
                  }
         }
     );

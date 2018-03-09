@@ -3,5 +3,5 @@
    var btnSendMessage = $('#btnSendMessage');
    var mic = $('#mic');
    mic.addClass("mic_enabled");
-   btnSendMessage.on('click', invokeConversation);
+   btnSendMessage.on('click', sendMessage);
    mic.on('click', invokeSpeechToText);

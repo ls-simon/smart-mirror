@@ -1,13 +1,11 @@
 
-    var txtArea = $('#txtArea');
-
+    var fieldMessageInput = $('#fieldMessageInput');
     var play = $('#play');
     var stream = null;
     var readText = $('#readTxt')
     var conversationId = 0;
     var mic = $('#mic');
     mic.addClass("mic_enabled");
-
 
     var setMicState = function () {
         var state = this.className;
@@ -18,8 +16,6 @@
             mic.addClass("mic_enabled");
             mic.removeClass("mic_disabled");
             console.log("stopped recording");
-
-
         }
         if (state.indexOf("mic_enabled") != -1) {
             console.log("recording..");
@@ -27,14 +23,13 @@
             mic.removeClass("mic_enabled");
         }
         return mic.attr('class').val()
-
     };
 
     function invokeSpeechToText(e) {
         e.preventDefault()
         $.when($.get('/watson/speechToTextToken')).done(function (token) {
             stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
-                token: token, outputElement: '#txtArea'
+                token: token, outputElement: '#fieldMessageInput'
             });
 
             stream.on('error', function (err) {
@@ -43,39 +38,16 @@
         });
     };
 
-    var invokeTextToSpeech = function (payload) {
-        console.log(payload + " payload");
-
+    var invokeTextToSpeech = function (input) {
         $('.player').remove();
-
         if (stream != undefined) {
             stream.stop();
         }
-
-
-        var data = {};
-        data.text = payload;
+        var toBeTranslated = {};
+        toBeTranslated.text = input;
         conversationId++;
-        data.conversationId = conversationId;
-        $.ajax({
-            type: 'POST',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            url: 'http://localhost:6005/watson/textToSpeechInput',
-            success: function (response) {
-                appendAndPlayAudioFile(response.filePath);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                if (xhr.status == 200) {
-                    alert(ajaxOptions);
-                }
-                else {
-                    console.log(xhr.status);
-                    console.log(thrownError);
-                    return false;
-                }
-            }
-        })
+        toBeTranslated.conversationId = conversationId;
+        sendAjaxRequest('POST', '/watson/textToSpeechInput', JSON.stringify(toBeTranslated));
     }
 
 
