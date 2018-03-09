@@ -1,5 +1,5 @@
 
-    var fieldMessageInput = $('#fieldMessageInput');
+    var fieldMessageInput = $('#fieldMessageInput').val();
     var play = $('#play');
     var stream = null;
     var readText = $('#readTxt')
@@ -13,30 +13,29 @@
             if (!((typeof(stream) == "undefined") || (stream == null))) {
                 stream.stop();
             }
-            mic.addClass("mic_enabled");
-            mic.removeClass("mic_disabled");
+            mic.addClass("mic_enabled").removeClass("mic_disabled");
             console.log("stopped recording");
-        }
-        if (state.indexOf("mic_enabled") != -1) {
+
+            sendMessage(fieldMessageInput);
+        } else {
             console.log("recording..");
-            mic.addClass("mic_disabled");
-            mic.removeClass("mic_enabled");
+            mic.addClass("mic_disabled").removeClass("mic_enabled");
+            invokeSpeechToText();
         }
-        return mic.attr('class').val()
+
     };
 
-    function invokeSpeechToText(e) {
-        e.preventDefault()
-        $.when($.get('/watson/speechToTextToken')).done(function (token) {
+    function invokeSpeechToText() {
+      $.get('/watson/speechToTextToken', function (token){
             stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
-                token: token, outputElement: '#fieldMessageInput'
+            token: token, outputElement: '#fieldMessageInput'
             });
-
             stream.on('error', function (err) {
-                console.log("Error in streaming speech to text: " + err);
+            console.log("Error in streaming speech to text: " + err);
             });
-        });
-    };
+            })
+    }
+
 
     var invokeTextToSpeech = function (input) {
         $('.player').remove();

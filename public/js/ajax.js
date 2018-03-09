@@ -1,15 +1,16 @@
 $.ajaxSetup({
-  dataType: "json",
-  contentType: "application/json; charset=utf-8"
-})
+  })
 
 function sendAjaxRequest(type, url, requestData){
   if (type == "GET"){ requestData = ""; }
   $.ajax({
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
       type: type,
       data: requestData,
       url: url,
       success: function (response){
+        console.log("url " + url + " response " + response)
         if (url == '/watson/textToSpeechInput'){
                   appendAndPlayAudioFile(response.filePath);
         } else {  processResponse(response, url); }

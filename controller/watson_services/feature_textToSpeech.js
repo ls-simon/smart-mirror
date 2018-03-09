@@ -11,15 +11,17 @@ var textToSpeech = new TextToSpeechV1({
     url: 'https://stream.watsonplatform.net/text-to-speech/api/'
 });
 
-var speechOptions = {
-text: req.body.text,
-voice: 'en-US_AllisonVoice',
-accept: 'audio/wav'
-};
+
 
 var now, timestamp;
 
 exports.synthesizeAndWrite = function (req, res) {
+
+  var speechOptions = {
+  text: req.body.text,
+  voice: 'en-US_AllisonVoice',
+  accept: 'audio/wav'
+  };
 
     textToSpeech.synthesize(speechOptions, function(err, audio) {
             if (err) {
@@ -45,6 +47,7 @@ function getPathWithTimeStamp(){
 
 
 exports.getToken = function(req, res) {
+  console.log("getToken")
     var speechToTextCredentials = extend(credentials.speech_to_text, vcapServices.getCredentials('speech_to_text'));
     // request authorization to access the service
     var authorizationService = watson.authorization(speechToTextCredentials);
