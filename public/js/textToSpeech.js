@@ -15,14 +15,12 @@
             }
             mic.addClass("mic_enabled").removeClass("mic_disabled");
             console.log("stopped recording");
-
             sendMessage(fieldMessageInput);
         } else {
             console.log("recording..");
             mic.addClass("mic_disabled").removeClass("mic_enabled");
             invokeSpeechToText();
         }
-
     };
 
     function invokeSpeechToText() {

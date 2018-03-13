@@ -5,23 +5,30 @@ var credentials = require('../watson_environment.json');
 var TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
 var fs = require('fs');
 
-var textToSpeech = new TextToSpeechV1({
-    username: credentials.text_to_speech.username,
-    password: credentials.text_to_speech.password,
-    url: 'https://stream.watsonplatform.net/text-to-speech/api/'
-});
+var textToSpeech = getTextToSpeechInstance();
+var now, timestamp, filePath, speechOptions;
 
+function getTextToSpeechInstance(){
+  return new TextToSpeechV1({
+      username: credentials.text_to_speech.username,
+      password: credentials.text_to_speech.password,
+      url: 'https://stream.watsonplatform.net/text-to-speech/api/'
+  });
+}
 
+function getSpeechOptions(text){
+  return {text: text, voice: 'en-US_AllisonVoice', accept: 'audio/wav'};
+}
 
-var now, timestamp;
+function getFilePathWithTimeStamp(){
+  now = new Date();
+  timestamp = Math.floor(now.getTime() + now.getHours() + now.getSeconds() + now.getMilliseconds() / 1000);
+  return 'public/audio/audio'+timestamp+'.wav';
+}
 
-exports.synthesizeAndWrite = function (req, res) {
+exports.synthesizeAndWrite = function (request, res) {
 
-  var speechOptions = {
-  text: req.body.text,
-  voice: 'en-US_AllisonVoice',
-  accept: 'audio/wav'
-  };
+    speechOptions = getSpeechOptions(request.body.text);
 
     textToSpeech.synthesize(speechOptions, function(err, audio) {
             if (err) {
@@ -31,25 +38,17 @@ exports.synthesizeAndWrite = function (req, res) {
             }
 
     textToSpeech.repairWavHeader(audio);
+            filePath = getFilePathWithTimeStamp();
             fs.writeFileSync(filePath, audio);
-            filePath = getPathWithTimeStamp();
-            var response = {}; response.filePath = filePath;
-            res.send(response);
+            var toBePlayed = {}; toBePlayed.filePath = filePath;
+            res.send(toBePlayed);
         });
 }
 
-
-function getPathWithTimeStamp(){
-  now = new Date();
-  timestamp = Math.floor(now.getTime() + now.getHours() + now.getSeconds() + now.getMilliseconds() / 1000);
-  return 'public/audio/audio'+timestamp+'.wav';
-}
-
-
-exports.getToken = function(req, res) {
+exports.getToken = function(request, res) {
   console.log("getToken")
     var speechToTextCredentials = extend(credentials.speech_to_text, vcapServices.getCredentials('speech_to_text'));
-    // request authorization to access the service
+    // requestuest authorization to access the service
     var authorizationService = watson.authorization(speechToTextCredentials);
     authorizationService.getToken({
         url: speechToTextCredentials.url

@@ -11,8 +11,12 @@ var sendMessage = function (actionMessage) {
     }
 
 function setMessageToInputOrAction(actionMessage){
-typeof actionMessage == "string" ? message = actionMessage : message = $('#fieldMessageInput').val();
-return message;
+  if (typeof actionMessage == "string"){
+  message = actionMessage
+    } else {
+  message = $('#fieldMessageInput').val();
+}
+  return message;
 }
 
 
@@ -33,7 +37,6 @@ function setResponseAndToneResults(response) {
     analyzedTone = response.tone.document_tone.tones.map(function (value) {
         return value.tone_id
    });
-
    handleResponseAsActionOrMessage();
  }
 
@@ -51,18 +54,7 @@ function appendResponse(){
   appendResponseInChatWindow();
 }
 
-function setClassificationResult(responseText){
-var classificationResults = classificationResult.images[0].classifiers[0].classes[0].class;
-var classificationResponseMessage = INTERPRET_AS_CLASSIFICATION + ' ' + classificationResults;
-sendMessage(classificationResponseMessage);
-}
 
-
-function takeSnapshotAndSendToClassifier(){
-  $.get('/utils/takeSnapshot').done(function (snapshot) {
-      sendAjaxRequest('POST' ,'/watson/classifyImage', JSON.stringify(snapshot));
-    })
-}
 
 
 function appendResponseInChatWindow(){
