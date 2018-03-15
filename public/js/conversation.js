@@ -1,4 +1,5 @@
 
+
 let textResponse, analyzedTone, message;
 const SNAPSHOT_ANALYZATION_REQUEST = "pictureAnalyzeRequest";
 const INTERPRET_AS_CLASSIFICATION = 'analyzationCompleteWithResults';
@@ -11,12 +12,13 @@ var sendMessage = function (actionMessage) {
     }
 
 function setMessageToInputOrAction(actionMessage){
+  let msg;
   if (typeof actionMessage == "string"){
-  message = actionMessage
+  msg = actionMessage
     } else {
-  message = $('#fieldMessageInput').val();
+      message = $('#fieldMessageInput').val();
 }
-  return message;
+  return msg;
 }
 
 
@@ -64,4 +66,7 @@ function appendResponseInChatWindow(){
         '  <div class="content">' + textResponse + '</div>' +
         '</div><br>' +
         '<div> You are ' + (analyzedTone[0]) + ' in your voice.</div>');
+}
+if(typeof exports !== 'undefined') {
+  exports.setMessageToInputOrAction = setMessageToInputOrAction;
 }

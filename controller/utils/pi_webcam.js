@@ -14,5 +14,11 @@ exports.takeSnapshot = function(request, response){
 
 function takeSnapshotWithTimestamp(){
      var snapshotWithTimestamp = shell.exec('sh ./controller/utils/picam.sh').stdout;
+
+
      return snapshotWithTimestamp;
+}
+
+if(typeof exports !== 'undefined') {
+  exports.takeSnapshotWithTimestamp = takeSnapshotWithTimestamp();
 }
