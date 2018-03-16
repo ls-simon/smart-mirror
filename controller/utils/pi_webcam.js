@@ -1,12 +1,10 @@
 var RaspiCam = require("raspicam");
 var shell = require('shelljs');
-let now, timeStamp, filePath, camera;
+let now, timeStamp, filePath, camera, snapshot;
 
 exports.takeSnapshot = function(request, response){
-    console.log("Taking picture..")
-    //let timestamp = takeSnapshotWithTimestamp();
-    timestamp = ""
-    var snapshot = {};
+    timestamp = takeSnapshotWithTimestamp();
+    snapshot = {};
     filePath = ('public/snapshots/'+timestamp+'.jpg').replace("\n", "");
     snapshot.filePath = filePath;
     response.send(snapshot);
@@ -14,7 +12,8 @@ exports.takeSnapshot = function(request, response){
 
 function takeSnapshotWithTimestamp(){
      var snapshotWithTimestamp = shell.exec('sh ./controller/utils/picam.sh').stdout;
-
+//script to insert when deploying to raspberry pi:
+//sudo raspistill -t 1 -o ./public/snapshots/$DATE.jpg
 
      return snapshotWithTimestamp;
 }

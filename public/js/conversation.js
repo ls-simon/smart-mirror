@@ -16,7 +16,7 @@ function setMessageToInputOrAction(actionMessage){
   if (typeof actionMessage == "string"){
   msg = actionMessage
     } else {
-      message = $('#fieldMessageInput').val();
+    //  msg = $('#fieldMessageInput').val();
 }
   return msg;
 }
@@ -61,11 +61,12 @@ function appendResponse(){
 
 function appendResponseInChatWindow(){
     $(".message").remove();
+    let tone = analyzedTone[0] ? analyzedTone[0] : "not set"
     $("#chat").append('<div class="message">' +
         '  <div class="header">Allison</div><br>' +
         '  <div class="content">' + textResponse + '</div>' +
         '</div><br>' +
-        '<div> You are ' + (analyzedTone[0]) + ' in your voice.</div>');
+        '<div> You are ' + tone + ' in your voice.</div>');
 }
 if(typeof exports !== 'undefined') {
   exports.setMessageToInputOrAction = setMessageToInputOrAction;
