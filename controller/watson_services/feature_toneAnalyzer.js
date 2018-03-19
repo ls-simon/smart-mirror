@@ -13,7 +13,6 @@ function invokeToneAsync(conversationPayload, toneAnalyzer) {
             if (error) {
                 reject(error);
             } else {
-                console.log(JSON.stringify(data));
                 resolve(data);
             }
         });

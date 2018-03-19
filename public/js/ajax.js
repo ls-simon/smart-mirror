@@ -10,7 +10,6 @@ function sendAjaxRequest(type, url, requestData){
       data: requestData,
       url: url,
       success: function (response){
-        console.log("url " + url + " response " + response)
         if (url == '/watson/textToSpeechInput'){
                   appendAndPlayAudioFile(response.filePath);
         } else {  processResponse(response, url); }

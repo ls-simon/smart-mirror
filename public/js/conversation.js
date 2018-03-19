@@ -16,7 +16,7 @@ function setMessageToInputOrAction(actionMessage){
   if (typeof actionMessage == "string"){
   msg = actionMessage
     } else {
-    //  msg = $('#fieldMessageInput').val();
+      msg = $('#fieldMessageInput').val();
 }
   return msg;
 }

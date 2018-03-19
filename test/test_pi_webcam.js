@@ -26,10 +26,10 @@ describe('controller/utils/pi_webcam.js', () => {
     it('should run script and return file path', (done) => {
       chai.request(app)
           .get(routePath)
-          .end((err, res) => {
-              res.should.have.status(200);
-              res.should.be.an('object');
-              assert(res.body.filePath.match('\.jpg'), 'file path should be a valid format');
+          .end((error, response) => {
+              response.should.have.status(200);
+              response.should.be.an('object');
+              assert(response.body.filePath.match('\.jpg'), 'file path should be a valid format');
             done();
           });
     });

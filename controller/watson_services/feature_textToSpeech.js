@@ -55,7 +55,7 @@ exports.getToken = function(request, res) {
     }, function(err, token) {
         if (err) {
             console.log('Error retrieving token: ', err);
-            res.status(500).send('Error retrieving token'+ReferenceError);
+            res.status(500).send('Error retrieving token' + ReferenceError);
             return;
         }
         res.send(token);

@@ -13,7 +13,6 @@ function getResponse(req, res){
      if (!stringifiedMessage){
        throw new Error("Message was not received");
      }
-     console.log("Req mes" + req.body.message);
      var messageToWatson = getMessageWithWorkspaceID(stringifiedMessage);
 
 
@@ -25,7 +24,6 @@ function getResponse(req, res){
                if (err) {
                    console.error("Error sending message: " + err);
                } else {
-                 console.log(JSON.stringify(response));
                    res.send({response: response, tone: tone});
                     }
            }
