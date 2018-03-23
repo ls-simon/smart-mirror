@@ -2,8 +2,8 @@ var VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v3'
 var credentials = require('../watson_environment.json');
 var fs = require('fs');
 
-var visualRecognition = getInstance();
-var classifierOptions = getOptions();
+const visualRecognition = getInstance();
+const classifierOptions = getOptions();
 
 function getInstance(){
   return new VisualRecognitionV3({
@@ -20,21 +20,23 @@ function getOptions(){
   };
 }
 
-exports.classifyImage = function (req, res) {
-
-var params = {
+function classifyImage(req, res) {
+  var params = {
     images_file: fs.createReadStream(req.body.filePath),
     parameters: classifierOptions
-};
+  };
 
 visualRecognition.classify(params, function(err, response) {
     if (err) {
         console.log("Error classifying image: " +err);
-
     } else {
-        console.log(JSON.stringify(response, null, 2));
         res.send(response);
     }
 });
+}
 
+if(typeof exports !== 'undefined') {
+  exports.getInstance = getInstance;
+  exports.getOptions = getOptions;
+  exports.classifyImage = classifyImage;
 }

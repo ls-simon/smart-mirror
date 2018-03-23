@@ -26,7 +26,7 @@ function getFilePathWithTimeStamp(){
   return 'public/audio/audio'+timestamp+'.wav';
 }
 
-exports.synthesizeAndWrite = function (request, res) {
+ function synthesizeAndWrite(request, res) {
 
     speechOptions = getSpeechOptions(request.body.text);
 
@@ -45,7 +45,7 @@ exports.synthesizeAndWrite = function (request, res) {
         });
 }
 
-exports.getToken = function(request, res) {
+function getToken(request, res) {
   console.log("getToken")
     var speechToTextCredentials = extend(credentials.speech_to_text, vcapServices.getCredentials('speech_to_text'));
     // requestuest authorization to access the service
@@ -60,4 +60,13 @@ exports.getToken = function(request, res) {
         }
         res.send(token);
     });
+}
+
+if(typeof exports !== 'undefined') {
+  exports.getTextToSpeechInstance = getTextToSpeechInstance;
+  exports.getSpeechOptions = getSpeechOptions;
+  exports.getFilePathWithTimeStamp = getFilePathWithTimeStamp;
+  exports.synthesizeAndWrite = synthesizeAndWrite;
+  exports.getToken = getToken;
+
 }

@@ -8,6 +8,7 @@
     mic.addClass("mic_enabled");
 
     var setMicState = function () {
+
         var state = this.className;
         if (state.indexOf("mic_disabled") != -1) {
             if (!((typeof(stream) == "undefined") || (stream == null))) {

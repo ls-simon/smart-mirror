@@ -24,7 +24,7 @@ function setMessageToInputOrAction(actionMessage){
 
 function processResponse(response, url){
   switch (url){
-    case '/watson/classifyImage': setClassificationResult(response, url)
+    case '/watson/classifyImage': setClassificationResult(response)
     break;
     case '/watson/conversationMessage': setResponseAndToneResults(response, url)
     break;

@@ -2,8 +2,10 @@
 
 var feature = require('./../controller/watson_services/feature_conversation.js');
 var app = require('./../app.js');
+var credentials = require('./../controller/watson_environment.json');
 
 const routePath = "/watson/conversationMessage";
+const stringifiedMessage = JSON.stringify("I will be very happy if this feature works!");
 
 const chai = require('chai');
 const expect = chai.expect;
@@ -25,7 +27,7 @@ describe('"feature_conversation.js"', ()=> {
       expect(toneAnalyzer).to.be.an('object');
     })
     it('should return an object with input message and workspace id', ()=> {
-      const message = feature.getMessageWithWorkspaceID();
+      const message = feature.getMessageWithWorkspaceID(stringifiedMessage);
 
       expect(message).to.be.an('object');
       expect(message).to.have.property('input');
@@ -35,15 +37,24 @@ describe('"feature_conversation.js"', ()=> {
 
   describe('Tone analyzation', ()=> {
     it('should resolve with an object', async ()=> {
-      const resolvedMessage = {input:{text: "I will be very happy if this feature works!" }}
+
+      const resolvedMessage = {input:{text: stringifiedMessage }, workspace_id: credentials.conversations.workspace};
       const resolvedTone = feature.getToneAnalyzation(resolvedMessage);
-      const resolvedResult = await resolvedTone;
-      expect(resolvedResult).to.be.an('object');
-      expect(resolvedResult).to.have.property('document_tone')
+      resolvedTone.then(function(data){
+        expect(data).to.be.an('object');
+        expect(data).to.have.property('document_tone');
+      }).catch(function(err){
+        console.log("Tone analyzation test: error occured");
+        console.log(err);
+      })
+
+
+
+
 
     })
     it('should reject with an error', async ()=>{
-      const emptyMessage = {input:{text: "" }}
+      const emptyMessage = {input:{text: "" }};
 
       feature.getToneAnalyzation().catch(function(error){
 

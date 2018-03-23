@@ -22,6 +22,7 @@
     "request": "^2.83.0",
     "serve-favicon": "^2.4.5",
     "shelljs": "^0.8.1",
+    "sinon": "^4.4.6",
     "vcap_services": "^0.3.4",
     "watson-developer-cloud": "^3.0.6"
   },
