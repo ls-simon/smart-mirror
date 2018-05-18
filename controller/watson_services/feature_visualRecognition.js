@@ -21,6 +21,7 @@ function getOptions(){
 }
 
 function classifyImage(req, res) {
+  let assumedClothItem = req.body.assumedClothItem;
   var params = {
     images_file: fs.createReadStream(req.body.filePath),
     parameters: classifierOptions
@@ -30,10 +31,13 @@ visualRecognition.classify(params, function(err, response) {
     if (err) {
         console.log("Error classifying image: " +err);
     } else {
+        response.intent = req.body.intent;
         res.send(response);
     }
 });
 }
+
+
 
 if(typeof exports !== 'undefined') {
   exports.getInstance = getInstance;

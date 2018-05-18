@@ -27,7 +27,9 @@ function getFilePathWithTimeStamp(){
 }
 
  function synthesizeAndWrite(request, res) {
-
+   console.log('request ' + request);
+   console.log('res ' + res
+   );
     speechOptions = getSpeechOptions(request.body.text);
 
     textToSpeech.synthesize(speechOptions, function(err, audio) {

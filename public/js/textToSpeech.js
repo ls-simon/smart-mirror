@@ -25,6 +25,7 @@
     };
 
     function invokeSpeechToText() {
+
       $.get('/watson/speechToTextToken', function (token){
             stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
             token: token, outputElement: '#fieldMessageInput'
@@ -37,6 +38,7 @@
 
 
     var invokeTextToSpeech = function (input) {
+      console.log("INPUT : " + input);
         $('.player').remove();
         if (stream != undefined) {
             stream.stop();

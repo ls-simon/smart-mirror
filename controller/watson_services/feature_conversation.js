@@ -13,10 +13,45 @@ function getResponse(req, res){
     checkIfMessageWasReceived(message);
     var formattedMessage = getMessageWithWorkspaceID(JSON.stringify(message));
     console.log("Formatted " + formattedMessage);
-    toneAnalyzationPromise(formattedMessage).then(sendAndReceiveMessage(toneAndMessage)).then(function(messageAndTone){
-      console.log("Last then");
-      res.send(messageAndTone);
-    });
+    getToneAnalyzation(formattedMessage).then(sendAndReceiveMessage);
+
+
+//   promise.then((toneAndMessage) => {sendAndReceiveMessage(toneAndMessage)})
+  // .then((messageAndTone) => {res.send(messageAndTone)});
+    //   console.log("Last then");
+
+       conversation.message(formattedMessage,
+         function(err, response) {
+             if (err) {
+                 console.log("Error sending message: " + err);
+             } else {
+                  console.log("Res");
+                 res.send({response: response});
+                  }
+  })
+}
+
+
+  function getToneAnalyzation(formattedMessage){
+  return new Promise(function(reject, resolve){
+  console.log("texttoAna" + formattedMessage);
+  var params = {
+    'tone_input': formattedMessage.input.text,
+    'content_type': 'text/plain'
+  };
+
+  toneAnalyzer.tone(params, function(error, response) {
+    if (error){
+      console.log('error:', error);
+      return error;
+    } else {
+
+      response.message = formattedMessage;
+        console.log(JSON.stringify("Tone analyzation: " + response.message));
+      return response;
+    }
+  })
+  })
   }
 
 function checkIfMessageWasReceived(message){
@@ -26,12 +61,11 @@ function checkIfMessageWasReceived(message){
 }
 
 function sendAndReceiveMessage(toneAndMessage){
-  console.log(toneAnalyzed + " " + formattedMessage);
-  var conversationPromise = new Promise(function(reject, resolve){
+  return new Promise(function(resolve, reject){
     conversation.message(toneAndMessage.message,
       function(err, response) {
           if (err) {
-              console.error("Error sending message: " + err);
+              reject("Error sending message: " + err);
           } else {
               resolve({response: response, tone: toneAndMessage});
                }
@@ -46,26 +80,7 @@ function getMessageWithWorkspaceID(message){
         };
 }
 
-function getToneAnalyzation(formattedMessage){
-var promise = new Promise(function(reject, resolve){
-console.log("texttoAna" + formattedMessage);
-var params = {
-  'tone_input': formattedMessage.input.text,
-  'content_type': 'text/plain'
-};
 
-toneAnalyzer.tone(params, function(error, response) {
-  if (error){
-    console.log('error:', error);
-    reject(error);
-  } else {
-    console.log(JSON.stringify("Tone analyzation: " +response));
-    response.message = formattedMessage;
-    resolve(response);
-  }
-})
-})
-}
 
 function getConversationInstance(){
   return new ConversationV1({
