@@ -12,7 +12,7 @@ function getResponse(req, res){
     console.log("Req mes " + req.body.message);
     checkIfMessageWasReceived(message);
     var formattedMessage = getMessageWithWorkspaceID(JSON.stringify(message));
-    console.log("Formatted " + formattedMessage);
+    console.log("Formatted " + JSON.stringify(formattedMessage));
     getToneAnalyzation(formattedMessage).then(sendAndReceiveMessage);
 
 

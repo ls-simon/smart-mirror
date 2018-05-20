@@ -3,9 +3,11 @@
 let textResponse, analyzedTone, message;
 
 var sendMessage = function (actionMessage) {
+  console.log(actionMessage);
     message = setMessageToInputOrAction(actionMessage);
     var request = {};
     request.message = message;
+    console.log(request.message);
     sendAjaxRequest("POST", '/watson/conversationMessage', JSON.stringify(request));
     }
 
@@ -36,7 +38,7 @@ function setResponseAndToneResults(response) {
 
     textResponse = JSON.stringify(response.response.output.text[0]);
     var intent = response.response.intents ? response.response.intents[0].intent : "no intent";
-
+    console.log("setResponseAndToneResults response: " + JSON.stringify(response));
   //  analyzedTone = response.tone.document_tone.tones.map(function (value) {
   //      return value.tone_id
   //   });
@@ -44,7 +46,6 @@ function setResponseAndToneResults(response) {
  }
 
  function handleResponseAsActionOrMessage(intent){
-
    if (intent == TAKE_FIRST_PICTURE || intent == TAKE_SECOND_PICTURE){
      takeSnapshotAndSendToClassifier(intent);
    } else {

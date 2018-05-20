@@ -3,9 +3,11 @@ var watson = require('watson-developer-cloud');
 var vcapServices = require('vcap_services');
 var credentials = require('../watson_environment.json');
 var TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
+var SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
 var fs = require('fs');
 
 var textToSpeech = getTextToSpeechInstance();
+var speechToText = getSpeechToTextInstance();
 var now, timestamp, filePath, speechOptions;
 
 function getTextToSpeechInstance(){
@@ -16,8 +18,23 @@ function getTextToSpeechInstance(){
   });
 }
 
-function getSpeechOptions(text){
+function getSpeechToTextInstance(){
+  return new SpeechToTextV1({
+    username: credentials.speech_to_text.username,
+    password: credentials.speech_to_text.password,
+    url: 'https://stream.watsonplatform.net/speech-to-text/api/'
+  });
+}
+
+
+function getTextToSpeechOptions(text){
   return {text: text, voice: 'en-US_AllisonVoice', accept: 'audio/wav'};
+}
+
+function getSpeechToTextOptions(){
+  return { audio: fs.createReadStream('public/recordedAudio/toBeTranscribed.wav'),
+           content_type: 'audio/l16; rate=44100'
+  };
 }
 
 function getFilePathWithTimeStamp(){
@@ -30,7 +47,7 @@ function getFilePathWithTimeStamp(){
    console.log('request ' + request);
    console.log('res ' + res
    );
-    speechOptions = getSpeechOptions(request.body.text);
+    speechOptions = getTextToSpeechOptions(request.body.text);
 
     textToSpeech.synthesize(speechOptions, function(err, audio) {
             if (err) {
@@ -64,11 +81,27 @@ function getToken(request, res) {
     });
 }
 
+function transcribeSpeechToText(request, response){
+
+var params = getSpeechToTextOptions();
+
+speechToText.recognize(params, function(err, res) {
+  if (err)
+    console.log(err);
+  else
+    console.log(JSON.stringify(res, null, 2));
+    response.send(res);
+});
+
+}
+
 if(typeof exports !== 'undefined') {
   exports.getTextToSpeechInstance = getTextToSpeechInstance;
-  exports.getSpeechOptions = getSpeechOptions;
+  exports.getSpeechToTextInstance = getSpeechToTextInstance;
+  exports.getTextToSpeechOptions = getTextToSpeechOptions;
+  exports.getSpeechToTextOptions = getSpeechToTextOptions;
   exports.getFilePathWithTimeStamp = getFilePathWithTimeStamp;
   exports.synthesizeAndWrite = synthesizeAndWrite;
-  exports.getToken = getToken;
+  exports.transcribeSpeechToText = transcribeSpeechToText;
 
 }

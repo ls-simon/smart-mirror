@@ -9,4 +9,4 @@
    mic.addClass("mic_enabled");
 
    btnSendMessage.on('click', sendMessage);
-   mic.on('click', setMicState);
+   mic.on('click', invokeSpeechToText);

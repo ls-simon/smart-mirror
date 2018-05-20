@@ -11,6 +11,7 @@
     "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0",
     "chai-jquery": "^2.0.0",
+    "child-process-promise": "^2.2.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",

@@ -5,35 +5,18 @@
     var readText = $('#readTxt')
     var conversationId = 0;
     var mic = $('#mic');
-    mic.addClass("mic_enabled");
-
-    var setMicState = function () {
-
-        var state = this.className;
-        if (state.indexOf("mic_disabled") != -1) {
-            if (!((typeof(stream) == "undefined") || (stream == null))) {
-                stream.stop();
-            }
-            mic.addClass("mic_enabled").removeClass("mic_disabled");
-            console.log("stopped recording");
-            sendMessage(fieldMessageInput);
-        } else {
-            console.log("recording..");
-            mic.addClass("mic_disabled").removeClass("mic_enabled");
-            invokeSpeechToText();
-        }
-    };
 
     function invokeSpeechToText() {
-
-      $.get('/watson/speechToTextToken', function (token){
-            stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
-            token: token, outputElement: '#fieldMessageInput'
-            });
-            stream.on('error', function (err) {
-            console.log("Error in streaming speech to text: " + err);
-            });
+      console.log('invokeSpeechToText');
+      $.get('/utils/startRecording', function(){
+        console.log('finish recording');
+        $.get('/watson/transcribeSpeechToText', function(transcription){
+          console.log(JSON.stringify(transcription) + '  transcription');
+          request = {};
+          request.message = JSON.stringify(transcription);
+          sendAjaxRequest('POST', '/watson/conversationMessage', request);
             })
+          })
     }
 
 
