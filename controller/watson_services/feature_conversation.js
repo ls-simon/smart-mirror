@@ -7,49 +7,49 @@ const maintainToneHistoryInContext = true;
 var conversation = getConversationInstance();
 var toneAnalyzer = getToneAnalyzerInstance();
 
-function getResponse(req, res){
+async function getResponse(req, res){
     let message = req.body.message;
-    console.log("Req mes " + req.body.message);
     checkIfMessageWasReceived(message);
+    
     var formattedMessage = getMessageWithWorkspaceID(JSON.stringify(message));
-    console.log("Formatted " + JSON.stringify(formattedMessage));
-    getToneAnalyzation(formattedMessage).then(sendAndReceiveMessage);
-
-
-//   promise.then((toneAndMessage) => {sendAndReceiveMessage(toneAndMessage)})
-  // .then((messageAndTone) => {res.send(messageAndTone)});
-    //   console.log("Last then");
 
        conversation.message(formattedMessage,
-         function(err, response) {
+	
+         async function(err, response) {
              if (err) {
                  console.log("Error sending message: " + err);
              } else {
-                  console.log("Res");
-                 res.send({response: response});
-                  }
+           	// I send the tone result to the client for now since it's only detected in longer messages
+		// No functionality, just printing.
+		
+	        var toneAnalyzation = await getToneAnalyzation(formattedMessage).then((tones)=> {		
+		
+		tones = !tones ? "no tone" : tones;
+		res.send({response: response, tones: tones});
+                	}).catch((error)=>{
+		console.log('Error occured: ', error);
+}); 
+		  }
   })
 }
 
 
-  function getToneAnalyzation(formattedMessage){
-  return new Promise(function(reject, resolve){
-  console.log("texttoAna" + formattedMessage);
-  var params = {
+    function getToneAnalyzation(formattedMessage){
+     
+    var params = {
     'tone_input': formattedMessage.input.text,
     'content_type': 'text/plain'
-  };
+  	};
+	
+	return new Promise(function(resolve, reject){
+   
 
-  toneAnalyzer.tone(params, function(error, response) {
-    if (error){
-      console.log('error:', error);
-      return error;
-    } else {
-
-      response.message = formattedMessage;
-        console.log(JSON.stringify("Tone analyzation: " + response.message));
-      return response;
-    }
+  	toneAnalyzer.tone(params, function(error, response) {   
+		if (!error) {
+		 resolve(response);
+    		} else { 
+		 reject(new Error('Could not detect tone in message')); 
+		}
   })
   })
   }
@@ -60,18 +60,6 @@ function checkIfMessageWasReceived(message){
   }
 }
 
-function sendAndReceiveMessage(toneAndMessage){
-  return new Promise(function(resolve, reject){
-    conversation.message(toneAndMessage.message,
-      function(err, response) {
-          if (err) {
-              reject("Error sending message: " + err);
-          } else {
-              resolve({response: response, tone: toneAndMessage});
-               }
-      });
-})
-}
 
 function getMessageWithWorkspaceID(message){
   return { input: {

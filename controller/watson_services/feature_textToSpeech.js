@@ -1,10 +1,10 @@
-var extend = require('extend');
-var watson = require('watson-developer-cloud');
-var vcapServices = require('vcap_services');
-var credentials = require('../watson_environment.json');
-var TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
-var SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
-var fs = require('fs');
+const extend = require('extend');
+const watson = require('watson-developer-cloud');
+const vcapServices = require('vcap_services');
+const credentials = require('../watson_environment.json');
+const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
+const SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
+const fs = require('fs');
 
 var textToSpeech = getTextToSpeechInstance();
 var speechToText = getSpeechToTextInstance();
@@ -43,10 +43,8 @@ function getFilePathWithTimeStamp(){
   return 'public/audio/audio'+timestamp+'.wav';
 }
 
- function synthesizeAndWrite(request, res) {
-   console.log('request ' + request);
-   console.log('res ' + res
-   );
+ function synthesizeAndWrite(request, res){
+   console.log("Synthesize and write text: " + request.body.text);
     speechOptions = getTextToSpeechOptions(request.body.text);
 
     textToSpeech.synthesize(speechOptions, function(err, audio) {
@@ -64,23 +62,6 @@ function getFilePathWithTimeStamp(){
         });
 }
 
-function getToken(request, res) {
-  console.log("getToken")
-    var speechToTextCredentials = extend(credentials.speech_to_text, vcapServices.getCredentials('speech_to_text'));
-    // requestuest authorization to access the service
-    var authorizationService = watson.authorization(speechToTextCredentials);
-    authorizationService.getToken({
-        url: speechToTextCredentials.url
-    }, function(err, token) {
-        if (err) {
-            console.log('Error retrieving token: ', err);
-            res.status(500).send('Error retrieving token' + ReferenceError);
-            return;
-        }
-        res.send(token);
-    });
-}
-
 function transcribeSpeechToText(request, response){
 
 var params = getSpeechToTextOptions();
@@ -90,9 +71,20 @@ speechToText.recognize(params, function(err, res) {
     console.log(err);
   else
     console.log(JSON.stringify(res, null, 2));
-    response.send(res);
+	
+    let transcript = validateTranscription(res); 
+    response.send(transcript);
 });
 
+}
+
+function validateTranscription(response){
+	if (typeof response.results[0] !== 'undefined'){
+		return response.results[0].alternatives[0].transcript;
+	    } else {
+		return "ERRORTRANSCRIBING";		
+}
+		 
 }
 
 if(typeof exports !== 'undefined') {

@@ -1,6 +1,6 @@
-var VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v3');
-var credentials = require('../watson_environment.json');
-var fs = require('fs');
+const VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v3');
+const credentials = require('../watson_environment.json');
+const fs = require('fs');
 
 const visualRecognition = getInstance();
 const classifierOptions = getOptions();
@@ -14,27 +14,32 @@ function getInstance(){
 }
 
 function getOptions(){
-  return {
+ 
+ return {
       classifier_ids: credentials.visual_recognition.customClassifierIds,
       threshold: 0.4
   };
+
 }
 
 function classifyImage(req, res) {
+
   let assumedClothItem = req.body.assumedClothItem;
-  var params = {
+  let params = {
     images_file: fs.createReadStream(req.body.filePath),
     parameters: classifierOptions
   };
 
-visualRecognition.classify(params, function(err, response) {
-    if (err) {
-        console.log("Error classifying image: " +err);
+visualRecognition.classify(params, function(error, response) {
+  
+    if (error) {
+        console.log("Error classifying image: " + error);
     } else {
         response.intent = req.body.intent;
         res.send(response);
     }
 });
+
 }
 
 

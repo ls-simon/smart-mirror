@@ -7,25 +7,26 @@
     var mic = $('#mic');
 
     function invokeSpeechToText() {
+
       console.log('invokeSpeechToText');
       $.get('/utils/startRecording', function(){
-        console.log('finish recording');
+        console.log('finished recording.');
         $.get('/watson/transcribeSpeechToText', function(transcription){
-          console.log(JSON.stringify(transcription) + '  transcription');
-          request = {};
-          request.message = JSON.stringify(transcription);
-          sendAjaxRequest('POST', '/watson/conversationMessage', request);
+          console.log("Transcription is: " + transcription);
+          sendMessage(transcription);
             })
           })
     }
 
 
     var invokeTextToSpeech = function (input) {
-      console.log("INPUT : " + input);
+
         $('.player').remove();
+
         if (stream != undefined) {
             stream.stop();
         }
+
         var toBeTranslated = {};
         toBeTranslated.text = input;
         conversationId++;
@@ -35,6 +36,7 @@
 
 
     function appendAndPlayAudioFile(filePath) {
+
         $('.audioParent').append('<audio controls autoplay class="player"><source class="audiosource" src="'+filePath.substr(6)+'" type="audio/wav">\n' +
             '        Your browser does not support the audio element.\n' +
             '    </audio>\n' +

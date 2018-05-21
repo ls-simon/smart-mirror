@@ -2,7 +2,6 @@ $.ajaxSetup({
   })
 
 function sendAjaxRequest(type, url, requestData){
-console.log(JSON.stringify(requestData));
   if (type == "GET"){ requestData = ""; }
   $.ajax({
       dataType: "json",

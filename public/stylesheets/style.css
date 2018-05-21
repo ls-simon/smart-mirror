@@ -3,7 +3,6 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: black;
   color: wheat;
-
 }
 
 .header { font: 35px "Lucida Grande" }
@@ -29,7 +28,6 @@ body {
   animation-delay: 0s;
   animation-iteration-count: 1;
   animation-name: slideInFromBottom;
-
 }
 
 
