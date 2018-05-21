@@ -5,7 +5,7 @@ var app = require('./../app.js');
 var credentials = require('./../controller/watson_environment.json');
 
 const routePath = "/watson/conversationMessage";
-const stringifiedMessage = JSON.stringify("I will be very happy if this feature works!");
+let formattedMessage = {input:{text:''}}
 
 const chai = require('chai');
 const expect = chai.expect;
@@ -27,7 +27,7 @@ describe('"feature_conversation.js"', ()=> {
       expect(toneAnalyzer).to.be.an('object');
     })
     it('should return an object with input message and workspace id', ()=> {
-      const message = feature.getMessageWithWorkspaceID(stringifiedMessage);
+      const message = feature.getMessageWithWorkspaceID('test message');
 
       expect(message).to.be.an('object');
       expect(message).to.have.property('input');
@@ -38,32 +38,24 @@ describe('"feature_conversation.js"', ()=> {
   describe('Tone analyzation', ()=> {
     it('should resolve with an object', async ()=> {
 
-      const resolvedMessage = {input:{text: stringifiedMessage }, workspace_id: credentials.conversations.workspace};
-      const resolvedTone = feature.getToneAnalyzation(resolvedMessage);
-      resolvedTone.then(function(data){
-        expect(data).to.be.an('object');
-        expect(data).to.have.property('document_tone');
-      }).catch(function(err){
-        console.log("Tone analyzation test: error occured");
-        console.log(err);
+      formattedMessage.input.text = 'I will be very happy if this feature works!';
+      var toneToResolve = feature.getToneAnalyzation(formattedMessage)
+      .then((tone)=>{
+        expect(tone).to.be.an('object');
+        expect(tone).to.have.property('document_tone');
+      }).catch((err)=>{
+        console.log("Tone analyzation test: error occured ", error);
+
       })
-
-
-
-
-
     })
+
     it('should reject with an error', async ()=>{
-      const emptyMessage = {input:{text: "" }};
-
-      feature.getToneAnalyzation().catch(function(error){
-
+      formattedMessage.input.text = '';
+       var toneToReject = feature.getToneAnalyzation(formattedMessage).then((_)=>{}).catch((error)=>{
         expect(error).to.be.an.instanceOf(Error);
       });
-      feature.getToneAnalyzation(emptyMessage).catch(function(error){
 
-        expect(error).to.be.an.instanceOf(Error);
-      })
+
     })
   })
 
@@ -78,14 +70,14 @@ describe('"feature_conversation.js"', ()=> {
     });
     it('should return tone analyzation and welcome message from Conversation', (done)=>{
       let request = {};
-      request.message = "I'm Simon!"
+      request.message = "I'm Simon and happy today!";
       chai.request(app)
-          .post(routePath).set('content-type', 'application/json; charset=utf-8')
+          .post(routePath).set('content-type', 'application/json')
             .send(request)
           .end((error, response, body) => {
 
             expect(response.body.response.output.text[0]).to.equal('Nice to meet you, Simon ! And what can I do for you?');
-            expect(response.body.tone).to.be.an('object')
+            expect(response.body.tones).to.be.an('object')
       done();
     })
 });

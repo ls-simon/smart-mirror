@@ -7,48 +7,49 @@ const maintainToneHistoryInContext = true;
 var conversation = getConversationInstance();
 var toneAnalyzer = getToneAnalyzerInstance();
 
-async function getResponse(req, res){
+ function getResponse(req, res){
+
     let message = req.body.message;
     checkIfMessageWasReceived(message);
-    
+
     var formattedMessage = getMessageWithWorkspaceID(JSON.stringify(message));
 
        conversation.message(formattedMessage,
-	
+
          async function(err, response) {
              if (err) {
                  console.log("Error sending message: " + err);
              } else {
            	// I send the tone result to the client for now since it's only detected in longer messages
-		// No functionality, just printing.
-		
-	        var toneAnalyzation = await getToneAnalyzation(formattedMessage).then((tones)=> {		
-		
+		        // No functionality, just printing.
+
+	        var toneAnalyzation = await getToneAnalyzation(formattedMessage).then((tones)=> {
+
 		tones = !tones ? "no tone" : tones;
 		res.send({response: response, tones: tones});
                 	}).catch((error)=>{
 		console.log('Error occured: ', error);
-}); 
+});
 		  }
   })
 }
 
 
     function getToneAnalyzation(formattedMessage){
-     
+
     var params = {
     'tone_input': formattedMessage.input.text,
     'content_type': 'text/plain'
   	};
-	
-	return new Promise(function(resolve, reject){
-   
 
-  	toneAnalyzer.tone(params, function(error, response) {   
+	return new Promise(function(resolve, reject){
+
+
+  	toneAnalyzer.tone(params, function(error, response) {
 		if (!error) {
 		 resolve(response);
-    		} else { 
-		 reject(new Error('Could not detect tone in message')); 
+    		} else {
+		 reject(new Error('Could not detect tone in message'));
 		}
   })
   })

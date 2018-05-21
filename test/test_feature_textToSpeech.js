@@ -31,13 +31,20 @@ describe('"feature_textToSpeech.js"', ()=> {
         expect(textToSpeechInstance).to.be.an('object');
       })
 
+      it('should set env params and return an instance of SpeechToText', ()=> {
+        const speechToTextInstance = feature.getSpeechToTextInstance();
+
+        expect(speechToTextInstance).to.be.an('object');
+      })
+
       it('should return an options object with the text to be translated', ()=> {
-        const options = feature.getSpeechOptions();
+        let options = feature.getTextToSpeechOptions('test text');
 
         expect(options).to.be.an('object');
         expect(options).to.have.property('text');
         expect(options).to.have.property('voice');
         expect(options).to.have.property('accept');
+        expect(options.text).to.be.equal('test text');
       })
 
       it('should return a valid file path string with a timestamp', ()=> {
