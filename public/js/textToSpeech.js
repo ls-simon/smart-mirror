@@ -10,10 +10,8 @@
 
       console.log('invokeSpeechToText');
       $.get('/utils/startRecording', function(){
-        console.log('finished recording.');
         $.get('/watson/transcribeSpeechToText', function(transcription){
-          console.log("Transcription is: " + transcription);
-          sendMessage(transcription);
+              sendMessage(transcription);
             })
           })
     }

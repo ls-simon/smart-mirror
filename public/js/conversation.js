@@ -40,23 +40,23 @@ function setResponseResults(response) {
 
     textResponse = JSON.stringify(response.response.output.text[0]);
     var intent = typeof response.response.intents[0] === 'undefined' ? "no intent" : response.response.intents[0].intent;
-    
-    if (response.tones && typeof response.tones !== 'string'){
-      if (response.tones.document_tone.tones[0]) { 
 
-	//Optional: Do something with the tone result or append in appendResponseInChatWindow
+    if (response.tones && typeof response.tones !== 'string'){
+      if (response.tones.document_tone.tones[0]) {
+
+	//Optional: Do something with the tone result or append to HTML in appendResponseInChatWindow
 
 	analyzedTone = response.tones.document_tone.tones[0].tone_name;
         console.log("\nAnalyzed tone is " + analyzedTone + "\n");
-		}  
-	}  
+		}
+	}
 
   	 handleResponseAsActionOrMessage(intent);
- 
+
  }
 
  function handleResponseAsActionOrMessage(intent){
- 
+ console.log('intent: ' + intent);
   if (intent == TAKE_FIRST_PICTURE || intent == TAKE_SECOND_PICTURE){
      takeSnapshotAndSendToClassifier(intent);
    } else {
@@ -78,7 +78,7 @@ function appendResponse(){
 function appendResponseInChatWindow(){
 
     $(".message").remove();
- 
+
     $("#chat").append('<div class="message">' +
         '  <div class="header">Allison</div><br>' +
         '  <div class="content">' + textResponse + '</div>' +

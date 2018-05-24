@@ -1,6 +1,5 @@
 const extend = require('extend');
 const watson = require('watson-developer-cloud');
-const vcapServices = require('vcap_services');
 const credentials = require('../watson_environment.json');
 const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
 const SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
@@ -71,8 +70,8 @@ speechToText.recognize(params, function(err, res) {
     console.log(err);
   else
     console.log(JSON.stringify(res, null, 2));
-	
-    let transcript = validateTranscription(res); 
+
+    let transcript = validateTranscription(res);
     response.send(transcript);
 });
 
@@ -82,9 +81,9 @@ function validateTranscription(response){
 	if (typeof response.results[0] !== 'undefined'){
 		return response.results[0].alternatives[0].transcript;
 	    } else {
-		return "ERRORTRANSCRIBING";		
+		return "ERRORTRANSCRIBING";
 }
-		 
+
 }
 
 if(typeof exports !== 'undefined') {

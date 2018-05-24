@@ -7,10 +7,15 @@
 <script src="/js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-<div id="play"  class="btn btn-primary">Play</div><br>
-<div id="mic"  class="btn btn-secondary">Mic</div>
-<div id="readTxt" class="btn btn-secondary">ReadTxt</div>
-<textarea id="fieldMessageInput"></textarea>
+
+
+    <div class="row">
+      <div class="col-lg-1">
+        <div class="form-group"><textarea class="form-control" rows="2" id="fieldMessageInput"></textarea></div>
+
+      </div>
+
+</div>
 <div class="row"><div class="col-lg-12 col-md-12 col-sm-12">
     <div class="audioParent">
     </div>
@@ -19,9 +24,11 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-2">
-      <div id="btnSendMessage" class="btn btn-primary" href="">Send to Chatbot</div>
-      <div id="btnClassifyImage" class="btn btn-primary">Classify</div>
-    </div>
+      <div id="btnSendMessage" class="btn btn-primary" href="">Send text</div>
+        </div>
+        <div class="col-sm-2">
+        <div id="mic"  class="btn btn-primary">Use microphone</div>
+        </div>
     <div class="col-sm-2">
 
       <div id="conversationFrame">
