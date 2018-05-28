@@ -17,64 +17,64 @@ chai.use(chaiHttp);
 
 
 
-describe('"feature_textToSpeech.js"', ()=> {
+describe('"feature_textToSpeech.js"', () => {
 
-  before(function(){
+  before(function() {
     filePathRegex = /^public\/audio\/audio\d+\.wav$/;
   })
 
-  describe('get methods', ()=> {
+  describe('get methods', () => {
 
-      it('should set env params and return an instance of TextToSpeech', ()=> {
-        const textToSpeechInstance = feature.getTextToSpeechInstance();
+    it('should set env params and return an instance of TextToSpeech', () => {
+      const textToSpeechInstance = feature.getTextToSpeechInstance();
 
-        expect(textToSpeechInstance).to.be.an('object');
-      })
+      expect(textToSpeechInstance).to.be.an('object');
+    })
 
-      it('should set env params and return an instance of SpeechToText', ()=> {
-        const speechToTextInstance = feature.getSpeechToTextInstance();
+    it('should set env params and return an instance of SpeechToText', () => {
+      const speechToTextInstance = feature.getSpeechToTextInstance();
 
-        expect(speechToTextInstance).to.be.an('object');
-      })
+      expect(speechToTextInstance).to.be.an('object');
+    })
 
-      it('should return an options object with the text to be translated', ()=> {
-        let options = feature.getTextToSpeechOptions('test text');
+    it('should return an options object with the text to be translated', () => {
+      let options = feature.getTextToSpeechOptions('test text');
 
-        expect(options).to.be.an('object');
-        expect(options).to.have.property('text');
-        expect(options).to.have.property('voice');
-        expect(options).to.have.property('accept');
-        expect(options.text).to.be.equal('test text');
-      })
+      expect(options).to.be.an('object');
+      expect(options).to.have.property('text');
+      expect(options).to.have.property('voice');
+      expect(options).to.have.property('accept');
+      expect(options.text).to.be.equal('test text');
+    })
 
-      it('should return a valid file path string with a timestamp', ()=> {
-        const timeStamp = feature.getFilePathWithTimeStamp();
-        expect(timeStamp).to.be.a('string');
-        assert(timeStamp.match(filePathRegex), true, 'file path is valid');
-      })
+    it('should return a valid file path string with a timestamp', () => {
+      const timeStamp = feature.getFilePathWithTimeStamp();
+      expect(timeStamp).to.be.a('string');
+      assert(timeStamp.match(filePathRegex), true, 'file path is valid');
+    })
   })
-  describe('POST /textToSpeechInput', ()=> {
-    it('should translate given text and send back a file path to a playable .wav file', (done)=>{
+  describe('POST /textToSpeechInput', () =>  {
+    it('should translate given text and send back a file path to a playable .wav file', (done) => {
       let request = {};
       request.text = "Nice to meet you!"
       chai.request(app)
-          .post(textToSpeechRoutePath)
-          .set('content-type', 'application/json; charset=utf-8')
-            .send(JSON.stringify(request))
-          .end((error, response, body) => {
+        .post(textToSpeechRoutePath)
+        .set('content-type', 'application/json; charset=utf-8')
+        .send(JSON.stringify(request))
+        .end((error, response, body) => {
 
-            expect(response.body.filePath).to.be.a('string');
-            assert(response.body.filePath.match(filePathRegex), true, 'response has valid file path');
-            assert(fs.existsSync(response.body.filePath), true, '.wav file exists');
-      done();
+          expect(response.body.filePath).to.be.a('string');
+          assert(response.body.filePath.match(filePathRegex), true, 'response has valid file path');
+          assert(fs.existsSync(response.body.filePath), true, '.wav file exists');
+          done();
+        })
     })
-})
   })
-  describe('GET /speechToTextToken', ()=> {
-    it('should generate and send a token for speech to text translation', (done)=> {
-        chai.request(app)
+  describe('GET /speechToTextToken', () =>  {
+    it('should generate and send a token for speech to text translation', (done) => {
+      chai.request(app)
         .get(speechToTextRoutePath)
-        .end((error, response)=> {
+        .end((error, response) => {
           expect(response.text).to.be.a('string');
           done();
         })

@@ -4,7 +4,9 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 
 var indexRoutes = require('./routes/index');

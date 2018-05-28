@@ -1,1 +1,1003 @@
-{"name":"smart-mirror","intents":[{"intent":"goodbye","examples":[{"text":"Farewell"},{"text":"Goodbye Watson"},{"text":"Goodbye"},{"text":"See you later"},{"text":"See you"},{"text":"Bye"},{"text":"I am going"}],"description":null},{"intent":"suggestClothing","examples":[{"text":"suggestClothing"}],"description":"suggestClothing"},{"intent":"name","examples":[{"text":"I am"},{"text":"Im"},{"text":"I'm"},{"text":"My name is"},{"text":"Name is"}],"description":""},{"intent":"pictureAnalyzeRequest","examples":[{"text":"How do I look?"},{"text":"Can you tell me how I look today?"},{"text":"Does this fit me?"},{"text":"Do I look good?"},{"text":"par"}],"description":""},{"intent":"takeSecondPicture","examples":[{"text":"I am ready!"},{"text":"Take picture"},{"text":"Take a picture"},{"text":"tsp"},{"text":"Ready"},{"text":"I am ready"},{"text":"takeSecondPicture"},{"text":"I am ready."}],"description":"Telling the app to take a second picture and conversation treats is as the result."},{"intent":"ErrorInClassification","examples":[{"text":"NOCLASSIFICATION"}],"description":""},{"intent":"ERRORTRANSCRIBING","examples":[{"text":"ERRORTRANSCRIBING"}],"description":"Give a specified response if Speech to Text could not detect any words."},{"intent":"clothResult","examples":[{"text":"clothResult"}],"description":"clothResult"}],"entities":[{"entity":"sys-location","values":[],"metadata":null,"description":null},{"entity":"sys-date","values":[],"metadata":null,"description":null},{"entity":"sys-time","values":[],"metadata":null,"description":null},{"entity":"sys-person","values":[],"metadata":null,"description":null},{"entity":"clothItem","values":[{"type":"synonyms","value":"bandana","metadata":null,"synonyms":[]},{"type":"synonyms","value":"asiatiskTanktop","metadata":null,"synonyms":[]},{"type":"synonyms","value":"blaaShorts","metadata":null,"synonyms":[]},{"type":"synonyms","value":"blomsterJakke","metadata":null,"synonyms":[]},{"type":"synonyms","value":"cirkelskjorte","metadata":null,"synonyms":[]},{"type":"synonyms","value":"flintstones","metadata":null,"synonyms":[]},{"type":"synonyms","value":"halstoerklaede","metadata":null,"synonyms":[]},{"type":"synonyms","value":"gammeldagsMonster","metadata":null,"synonyms":[]},{"type":"synonyms","value":"stribetlynlaas","metadata":null,"synonyms":[]},{"type":"synonyms","value":"stribetTroje","metadata":null,"synonyms":[]},{"type":"synonyms","value":"ternetSkjorte","metadata":null,"synonyms":[]},{"type":"synonyms","value":"hat","metadata":null,"synonyms":[]},{"type":"synonyms","value":"cirkelKjole","metadata":null,"synonyms":[]},{"type":"synonyms","value":"habitjakke","metadata":null,"synonyms":[]}],"metadata":null,"description":null}],"language":"en","metadata":{"api_version":{"major_version":"v1","minor_version":"2017-05-26"}},"description":"","dialog_nodes":[{"type":"response_condition","title":null,"output":{"text":{"values":["I would have picked the shorts, but this look fine, too!"],"selection_policy":"sequential"}},"parent":"node_3_1526574118507","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:asiatiskTanktop && @clothItem != 'blaaShorts'","description":null,"dialog_node":"node_5_1526916449763","previous_sibling":"node_4_1526916338878"},{"type":"response_condition","title":null,"output":{"text":{"values":["I would have picked with the tanktop, but this looks fine, too!"]}},"parent":"node_3_1526574118507","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem != 'blaaShorts' || @clothItem != 'asiatiskTanktop'","description":null,"dialog_node":"node_4_1526916338878","previous_sibling":"node_3_1526916285250"},{"type":"response_condition","title":null,"output":{"text":{"values":["Aah, you look fantastic! You only need the flight tickets to be ready for Thailand!"],"selection_policy":"sequential"}},"parent":"node_3_1526574118507","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:blaaShorts && @clothItem:asiatiskTanktop","description":null,"dialog_node":"node_3_1526916285250","previous_sibling":null},{"type":"response_condition","title":null,"output":{"text":{"values":["I think you made an even better choice! Flowers are great on any occasion."]}},"parent":"node_7_1526918511543","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:blomsterJakke && @clothItem != 'cirkelskjorte'","description":null,"dialog_node":"node_22_1526920084281","previous_sibling":"node_21_1526920083218"},{"type":"response_condition","title":null,"output":{"text":{"values":["The shirt looks nice! I see you spiced up the artsy look yourself. Great choice."]}},"parent":"node_7_1526918511543","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:cirkelskjorte && @clothItem != 'blomsterJakke'","description":null,"dialog_node":"node_21_1526920083218","previous_sibling":"node_20_1526920076883"},{"type":"response_condition","title":null,"output":{"text":{"values":["Going to an artsy event this evening? This would make even Andy Warhol turn around."]}},"parent":"node_7_1526918511543","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:blomsterJakke && @clothItem:cirkelskjorte","description":null,"dialog_node":"node_20_1526920076883","previous_sibling":null},{"type":"response_condition","title":null,"output":{"text":{"values":["Great choice! The dress would match with the bandana. Try wearing it and show me how you look."]}},"parent":"node_2_1526918496721","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:cirkelKjole","description":null,"dialog_node":"node_8_1526918658283","previous_sibling":"node_5_1526918506721"},{"type":"response_condition","title":null,"output":{"text":{"values":["Feeling artsy today? Pick the dress with dots and show me how you look."]}},"parent":"node_2_1526918496721","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:bandana","description":null,"dialog_node":"node_9_1526918668279","previous_sibling":"node_8_1526918658283"},{"type":"standard","title":"Result cases","output":{},"parent":"node_2_1526918496721","context":null,"metadata":{"_customization":{"mcr":true}},"next_step":null,"conditions":"#clothResult","description":null,"dialog_node":"node_5_1526918506721","digress_out":"allow_all","previous_sibling":null},{"type":"response_condition","title":null,"output":{"text":{"values":["The dress looks nice on you with or without the bandana."]}},"parent":"node_5_1526918506721","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem != 'bandana' && @clothItem:cirkelKjole","description":null,"dialog_node":"node_12_1526918821168","previous_sibling":"node_11_1526918802215"},{"type":"response_condition","title":null,"output":{"text":{"values":["You did not pick the dress, but this looks nice, too! Bandanas are my favorite thing to wear."]}},"parent":"node_5_1526918506721","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:bandana && @clothItem != 'cirkelKjole'","description":null,"dialog_node":"node_11_1526918802215","previous_sibling":"node_10_1526918781492"},{"type":"response_condition","title":null,"output":{"text":{"values":["The dress and bandana look. I predict this will be highest fashion in 2048. It's good to have a head start."]}},"parent":"node_5_1526918506721","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:cirkelKjole && @clothItem:bandana","description":null,"dialog_node":"node_10_1526918781492","previous_sibling":null},{"type":"response_condition","title":null,"output":{"text":{"values":["I see you picked a shirt. If you want to be ready for the danish beach weather, pick the Corona hat and show me how you look."]}},"parent":"node_15_1526917959813","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:stribetTroje","description":null,"dialog_node":"node_17_1526918031571","previous_sibling":"node_16_1526918022696"},{"type":"response_condition","title":null,"output":{"text":{"values":["I see you picked the hat! The striped shirt would be a great summer outfit, I think! Try it on and show me how you look."]}},"parent":"node_15_1526917959813","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:hat","description":null,"dialog_node":"node_16_1526918022696","previous_sibling":"node_18_1526918149721"},{"type":"standard","title":"Result cases","output":{},"parent":"node_15_1526917959813","context":null,"metadata":{"_customization":{"mcr":true}},"next_step":null,"conditions":"#clothResult","description":null,"dialog_node":"node_18_1526918149721","digress_out":"allow_all","previous_sibling":null},{"type":"response_condition","title":null,"output":{"text":{"values":["The hat looks nice on any occasion! But save for the hot weather."]}},"parent":"node_18_1526918149721","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:hat && @clothItem != 'stribetTroje'","description":null,"dialog_node":"node_1_1526918419019","previous_sibling":"node_20_1526918329785"},{"type":"response_condition","title":null,"output":{"text":{"values":["I would have chosen the hat, but that looks nice too! Hey look! I found Waldo!"]}},"parent":"node_18_1526918149721","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:stribetTroje && @clothItem != 'hat'","description":null,"dialog_node":"node_20_1526918329785","previous_sibling":"node_19_1526918253918"},{"type":"response_condition","title":null,"output":{"text":{"values":["You are definitely prepared for the summer now. Or an Olsen gang movie.."]}},"parent":"node_18_1526918149721","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:stribetTroje && @clothItem:hat","description":null,"dialog_node":"node_19_1526918253918","previous_sibling":null},{"type":"response_condition","title":null,"output":{"text":{"values":["I would have gone with the shirt, but this looks good, too! Go get them, handsome."],"selection_policy":"sequential"}},"parent":"node_5_1526574215644","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:habitjakke && @clothItem != ' ternetSkjorte'","description":null,"dialog_node":"node_9_1526574638429","previous_sibling":"node_8_1526574582664"},{"type":"response_condition","title":null,"output":{"text":{"values":["I would have chosen the jacket, but this looks fine, too! Not so fancy, though."],"selection_policy":"sequential"}},"parent":"node_5_1526574215644","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:ternetSkjorte && @clothItem != 'habitjakke'","description":null,"dialog_node":"node_10_1526574661026","previous_sibling":"node_9_1526574638429"},{"type":"response_condition","title":null,"output":{"text":{"values":["Now you are ready for a fancy cocktail party. Sorry I can't help you with the tie."],"selection_policy":"sequential"}},"parent":"node_5_1526574215644","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:ternetSkjorte && @clothItem:habitjakke","description":null,"dialog_node":"node_8_1526574582664","previous_sibling":null},{"type":"response_condition","title":null,"output":{"text":{"values":["Going to a fancy event I see? Try out the checkered shirt and show me show you look."]}},"parent":"node_4_1526574185735","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:habitjakke","description":null,"dialog_node":"node_7_1526917533614","previous_sibling":"node_6_1526916940802"},{"type":"response_condition","title":null,"output":{"text":{"values":["You picked the striped shirt! If you want to look really fancy, go pick the black jacket and show me how you look."],"selection_policy":"sequential"}},"parent":"node_4_1526574185735","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:ternetSkjorte","description":null,"dialog_node":"node_6_1526916940802","previous_sibling":"node_5_1526574215644"},{"type":"standard","title":"Result cases","output":{},"parent":"node_4_1526574185735","context":null,"metadata":{"_customization":{"mcr":true}},"next_step":null,"conditions":"#clothResult","description":null,"dialog_node":"node_5_1526574215644","digress_out":"allow_all","previous_sibling":null},{"type":"response_condition","title":null,"output":{"text":{"values":["ROAR! I think Tarzan just followed you on Instagram."]}},"parent":"node_6_1526918509128","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:flintstones && @clothItem:halstoerklaede","description":null,"dialog_node":"node_17_1526919401112","previous_sibling":"node_16_1526919400055"},{"type":"response_condition","title":null,"output":{"text":{"values":["Scarfs are nice for any danish weather. We'll go on jungle safari another time."]}},"parent":"node_6_1526918509128","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:halstoerklaede && @clothItem != 'flintstones'","description":null,"dialog_node":"node_16_1526919400055","previous_sibling":"node_15_1526919389658"},{"type":"response_condition","title":null,"output":{"text":{"values":["ROAR! I think Tarzan just followed you on Instagram."]}},"parent":"node_6_1526918509128","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:flintstones && @clothItem != 'halstoerklaede'","description":null,"dialog_node":"node_15_1526919389658","previous_sibling":null},{"type":"response_condition","title":null,"output":{"text":{"values":["You are ready for a Flintstone Musical! But jungles can be cold at night. Try pick the scarf and show me how you look."]}},"parent":"node_4_1526918501621","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:flintstones","description":null,"dialog_node":"node_13_1526919136752","previous_sibling":"node_6_1526918509128"},{"type":"response_condition","title":null,"output":{"text":{"values":["The scarf looks good on you! Do you like jungles? Try pick the tiger skirt and show me how you look."]}},"parent":"node_4_1526918501621","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:halstoerklaede","description":null,"dialog_node":"node_14_1526919143858","previous_sibling":"node_13_1526919136752"},{"type":"standard","title":"Result cases","output":{},"parent":"node_4_1526918501621","context":null,"metadata":{"_customization":{"mcr":true}},"next_step":null,"conditions":"#clothResult","description":null,"dialog_node":"node_6_1526918509128","digress_out":"allow_all","previous_sibling":null},{"type":"response_condition","title":null,"output":{"text":{"values":["I see you picked the tank top!"]}},"parent":"node_2_1526574076811","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:asiatiskTanktop","description":null,"dialog_node":"node_2_1526916090604","previous_sibling":"node_1_1526916081574"},{"type":"standard","title":"Result cases","output":{},"parent":"node_2_1526574076811","context":null,"metadata":{"_customization":{"mcr":true}},"next_step":null,"conditions":"#clothResult","description":null,"dialog_node":"node_3_1526574118507","digress_out":"allow_all","previous_sibling":"node_2_1526916090604"},{"type":"response_condition","title":null,"output":{"text":{"values":["I see you picked the blue shorts!"],"selection_policy":"sequential"}},"parent":"node_2_1526574076811","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:blaaShorts","description":null,"dialog_node":"node_1_1526916081574","previous_sibling":null},{"type":"response_condition","title":null,"output":{"text":{"values":["That is surely a fancy shirt you have picked. I think the flowered jacket would look great with that."]}},"parent":"node_3_1526918499493","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:cirkelskjorte","description":null,"dialog_node":"node_19_1526919699813","previous_sibling":"node_18_1526919689799"},{"type":"response_condition","title":null,"output":{"text":{"values":["You look good in flowers! If you want to look a little fancy, try pick the dotted shirt and show me how you look!"]}},"parent":"node_3_1526918499493","context":null,"metadata":{},"next_step":null,"conditions":"@clothItem:blomsterJakke","description":null,"dialog_node":"node_18_1526919689799","previous_sibling":"node_7_1526918511543"},{"type":"standard","title":"Result cases","output":{},"parent":"node_3_1526918499493","context":null,"metadata":{"_customization":{"mcr":true}},"next_step":null,"conditions":"#clothResult","description":null,"dialog_node":"node_7_1526918511543","digress_out":"allow_all","previous_sibling":null},{"type":"standard","title":"blaa shorts og asiatisk tanktop","output":{},"parent":null,"context":null,"metadata":{"_customization":{"mcr":true}},"next_step":null,"conditions":"#suggestClothing && @clothItem:blaaShorts || @clothItem:asiatiskTanktop","digress_in":"does_not_return","description":null,"dialog_node":"node_2_1526574076811","digress_out":"allow_all","previous_sibling":"node_23_1526920513328"},{"type":"standard","title":"Blomstret jakke og cirkelmoenstret skjorte","output":{},"parent":null,"context":null,"metadata":{"_customization":{"mcr":true}},"next_step":null,"conditions":"#suggestClothing && @clothItem:blomsterJakke || @clothItem:cirkelskjorte","digress_in":"does_not_return","description":null,"dialog_node":"node_3_1526918499493","digress_out":"allow_all","previous_sibling":"node_2_1526918496721"},{"type":"standard","title":"Anything else","output":{"text":{"values":["I have a bad hearing. Can you please repeat?","Can you reword your statement? I'm not understanding.","I didn't get your meaning. Can you please repeat?","I'm not understanding. Can you please repeat?"],"selection_policy":"random"}},"parent":null,"context":null,"metadata":{},"next_step":null,"conditions":"anything_else","description":null,"dialog_node":"Anything else","previous_sibling":"node_1_1526858033009"},{"type":"standard","title":"Error in Transcription","output":{"text":{"values":["I'm sorry, I have a bad hearing. Can you please repeat?"],"selection_policy":"sequential"}},"parent":null,"context":null,"metadata":{},"next_step":null,"conditions":"#ERRORTRANSCRIBING","description":null,"dialog_node":"node_1_1526858033009","previous_sibling":"node_1_1526557942146"},{"type":"standard","title":"Error in Classification","output":{"text":{"values":["I am sorry, but I could not see an item from the hanger. Let me know when you are ready to take a picture again."],"selection_policy":"sequential"}},"parent":null,"context":null,"metadata":{},"next_step":null,"conditions":"#ErrorInClassification","description":null,"dialog_node":"node_1_1526557942146","previous_sibling":"node_15_1526917959813"},{"type":"standard","title":"Goodbye","output":{"text":{"values":["Thank you for your time!","Smell you later! I hope we meet again.","See you later!","This was fun! We should do it again some time!","Goodbye. I hope we meet again."],"selection_policy":"sequential"}},"parent":null,"context":null,"metadata":{},"next_step":null,"conditions":"#goodbye","description":null,"dialog_node":"node_23_1526920513328","previous_sibling":"node_4_1519200209814"},{"type":"standard","title":"Cirkelmoenstret kjole og bandana","output":{},"parent":null,"context":null,"metadata":{"_customization":{"mcr":true}},"next_step":null,"conditions":"#suggestClothing && @clothItem:bandana || @clothItem:cirkelKjole","digress_in":"does_not_return","description":null,"dialog_node":"node_2_1526918496721","digress_out":"allow_all","previous_sibling":"node_4_1526574185735"},{"type":"standard","title":"Rødstribet trøje og hat","output":{},"parent":null,"context":null,"metadata":{"_customization":{"mcr":true}},"next_step":null,"conditions":"#suggestClothing && @clothItem:stribetTroje || @clothItem:hat","digress_in":"does_not_return","description":null,"dialog_node":"node_15_1526917959813","digress_out":"allow_all","previous_sibling":"node_4_1526918501621"},{"type":"standard","title":"Ternet skjorte og habitjakke","output":{},"parent":null,"context":null,"metadata":{"_customization":{"mcr":true}},"next_step":null,"conditions":"#suggestClothing && @clothItem:ternetSkjorte || @clothItem:habitjakke","digress_in":"does_not_return","description":null,"dialog_node":"node_4_1526574185735","digress_out":"allow_all","previous_sibling":"node_2_1526574076811"},{"type":"standard","title":"Welcome","output":{"text":{"values":["Nice to meet you, $username ! And what can I do for you?"],"selection_policy":"sequential"}},"parent":null,"context":{"username":"@sys-person.literal"},"metadata":{},"next_step":null,"conditions":"@sys-person && #name","description":null,"dialog_node":"node_4_1519200209814","previous_sibling":"node_6_1519201095873"},{"type":"standard","title":"Flintstone og halstoerklaede","output":{},"parent":null,"context":null,"metadata":{"_customization":{"mcr":true}},"next_step":null,"conditions":"#suggestClothing && @clothItem:flintstones || @clothItem:halstoerklaede","digress_in":"does_not_return","description":null,"dialog_node":"node_4_1526918501621","digress_out":"allow_all","previous_sibling":"node_3_1526918499493"},{"type":"standard","title":"conversation_start","output":{"text":{"values":["Hi there! What's your name?"],"selection_policy":"sequential"}},"parent":null,"context":null,"metadata":{},"next_step":null,"conditions":"welcome","description":null,"dialog_node":"node_6_1519201095873","previous_sibling":null}],"workspace_id":"e2293721-8e92-4be4-bdb7-e4c0a340393e","counterexamples":[],"learning_opt_out":false}
+{
+  "name": "smart-mirror",
+  "intents": [{
+    "intent": "goodbye",
+    "examples": [{
+      "text": "Farewell"
+    }, {
+      "text": "Goodbye Watson"
+    }, {
+      "text": "Goodbye"
+    }, {
+      "text": "See you later"
+    }, {
+      "text": "See you"
+    }, {
+      "text": "Bye"
+    }, {
+      "text": "I am going"
+    }],
+    "description": null
+  }, {
+    "intent": "suggestClothing",
+    "examples": [{
+      "text": "suggestClothing"
+    }],
+    "description": "suggestClothing"
+  }, {
+    "intent": "name",
+    "examples": [{
+      "text": "I am"
+    }, {
+      "text": "Im"
+    }, {
+      "text": "I'm"
+    }, {
+      "text": "My name is"
+    }, {
+      "text": "Name is"
+    }],
+    "description": ""
+  }, {
+    "intent": "pictureAnalyzeRequest",
+    "examples": [{
+      "text": "How do I look?"
+    }, {
+      "text": "Can you tell me how I look today?"
+    }, {
+      "text": "Does this fit me?"
+    }, {
+      "text": "Do I look good?"
+    }, {
+      "text": "par"
+    }],
+    "description": ""
+  }, {
+    "intent": "takeSecondPicture",
+    "examples": [{
+      "text": "I am ready!"
+    }, {
+      "text": "Take picture"
+    }, {
+      "text": "Take a picture"
+    }, {
+      "text": "tsp"
+    }, {
+      "text": "Ready"
+    }, {
+      "text": "I am ready"
+    }, {
+      "text": "takeSecondPicture"
+    }, {
+      "text": "I am ready."
+    }],
+    "description": "Telling the app to take a second picture and conversation treats is as the result."
+  }, {
+    "intent": "ErrorInClassification",
+    "examples": [{
+      "text": "NOCLASSIFICATION"
+    }],
+    "description": ""
+  }, {
+    "intent": "ERRORTRANSCRIBING",
+    "examples": [{
+      "text": "ERRORTRANSCRIBING"
+    }],
+    "description": "Give a specified response if Speech to Text could not detect any words."
+  }, {
+    "intent": "clothResult",
+    "examples": [{
+      "text": "clothResult"
+    }],
+    "description": "clothResult"
+  }],
+  "entities": [{
+    "entity": "sys-location",
+    "values": [],
+    "metadata": null,
+    "description": null
+  }, {
+    "entity": "sys-date",
+    "values": [],
+    "metadata": null,
+    "description": null
+  }, {
+    "entity": "sys-time",
+    "values": [],
+    "metadata": null,
+    "description": null
+  }, {
+    "entity": "sys-person",
+    "values": [],
+    "metadata": null,
+    "description": null
+  }, {
+    "entity": "clothItem",
+    "values": [{
+      "type": "synonyms",
+      "value": "bandana",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "asiatiskTanktop",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "blaaShorts",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "blomsterJakke",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "cirkelskjorte",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "flintstones",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "halstoerklaede",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "gammeldagsMonster",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "stribetlynlaas",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "stribetTroje",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "ternetSkjorte",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "hat",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "cirkelKjole",
+      "metadata": null,
+      "synonyms": []
+    }, {
+      "type": "synonyms",
+      "value": "habitjakke",
+      "metadata": null,
+      "synonyms": []
+    }],
+    "metadata": null,
+    "description": null
+  }],
+  "language": "en",
+  "metadata": {
+    "api_version": {
+      "major_version": "v1",
+      "minor_version": "2017-05-26"
+    }
+  },
+  "description": "",
+  "dialog_nodes": [{
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["I would have picked the shorts, but this look fine, too!"],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_3_1526574118507",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:asiatiskTanktop && @clothItem != 'blaaShorts'",
+    "description": null,
+    "dialog_node": "node_5_1526916449763",
+    "previous_sibling": "node_4_1526916338878"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["I would have picked with the tanktop, but this looks fine, too!"]
+      }
+    },
+    "parent": "node_3_1526574118507",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem != 'blaaShorts' || @clothItem != 'asiatiskTanktop'",
+    "description": null,
+    "dialog_node": "node_4_1526916338878",
+    "previous_sibling": "node_3_1526916285250"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["Aah, you look fantastic! You only need the flight tickets to be ready for Thailand!"],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_3_1526574118507",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:blaaShorts && @clothItem:asiatiskTanktop",
+    "description": null,
+    "dialog_node": "node_3_1526916285250",
+    "previous_sibling": null
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["I think you made an even better choice! Flowers are great on any occasion."]
+      }
+    },
+    "parent": "node_7_1526918511543",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:blomsterJakke && @clothItem != 'cirkelskjorte'",
+    "description": null,
+    "dialog_node": "node_22_1526920084281",
+    "previous_sibling": "node_21_1526920083218"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["The shirt looks nice! I see you spiced up the artsy look yourself. Great choice."]
+      }
+    },
+    "parent": "node_7_1526918511543",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:cirkelskjorte && @clothItem != 'blomsterJakke'",
+    "description": null,
+    "dialog_node": "node_21_1526920083218",
+    "previous_sibling": "node_20_1526920076883"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["Going to an artsy event this evening? This would make even Andy Warhol turn around."]
+      }
+    },
+    "parent": "node_7_1526918511543",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:blomsterJakke && @clothItem:cirkelskjorte",
+    "description": null,
+    "dialog_node": "node_20_1526920076883",
+    "previous_sibling": null
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["Great choice! The dress would match with the bandana. Try wearing it and show me how you look."]
+      }
+    },
+    "parent": "node_2_1526918496721",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:cirkelKjole",
+    "description": null,
+    "dialog_node": "node_8_1526918658283",
+    "previous_sibling": "node_5_1526918506721"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["Feeling artsy today? Pick the dress with dots and show me how you look."]
+      }
+    },
+    "parent": "node_2_1526918496721",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:bandana",
+    "description": null,
+    "dialog_node": "node_9_1526918668279",
+    "previous_sibling": "node_8_1526918658283"
+  }, {
+    "type": "standard",
+    "title": "Result cases",
+    "output": {},
+    "parent": "node_2_1526918496721",
+    "context": null,
+    "metadata": {
+      "_customization": {
+        "mcr": true
+      }
+    },
+    "next_step": null,
+    "conditions": "#clothResult",
+    "description": null,
+    "dialog_node": "node_5_1526918506721",
+    "digress_out": "allow_all",
+    "previous_sibling": null
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["The dress looks nice on you with or without the bandana."]
+      }
+    },
+    "parent": "node_5_1526918506721",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem != 'bandana' && @clothItem:cirkelKjole",
+    "description": null,
+    "dialog_node": "node_12_1526918821168",
+    "previous_sibling": "node_11_1526918802215"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["You did not pick the dress, but this looks nice, too! Bandanas are my favorite thing to wear."]
+      }
+    },
+    "parent": "node_5_1526918506721",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:bandana && @clothItem != 'cirkelKjole'",
+    "description": null,
+    "dialog_node": "node_11_1526918802215",
+    "previous_sibling": "node_10_1526918781492"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["The dress and bandana look. I predict this will be highest fashion in 2048. It's good to have a head start."]
+      }
+    },
+    "parent": "node_5_1526918506721",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:cirkelKjole && @clothItem:bandana",
+    "description": null,
+    "dialog_node": "node_10_1526918781492",
+    "previous_sibling": null
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["I see you picked a shirt. If you want to be ready for the danish beach weather, pick the Corona hat and show me how you look."]
+      }
+    },
+    "parent": "node_15_1526917959813",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:stribetTroje",
+    "description": null,
+    "dialog_node": "node_17_1526918031571",
+    "previous_sibling": "node_16_1526918022696"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["I see you picked the hat! The striped shirt would be a great summer outfit, I think! Try it on and show me how you look."]
+      }
+    },
+    "parent": "node_15_1526917959813",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:hat",
+    "description": null,
+    "dialog_node": "node_16_1526918022696",
+    "previous_sibling": "node_18_1526918149721"
+  }, {
+    "type": "standard",
+    "title": "Result cases",
+    "output": {},
+    "parent": "node_15_1526917959813",
+    "context": null,
+    "metadata": {
+      "_customization": {
+        "mcr": true
+      }
+    },
+    "next_step": null,
+    "conditions": "#clothResult",
+    "description": null,
+    "dialog_node": "node_18_1526918149721",
+    "digress_out": "allow_all",
+    "previous_sibling": null
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["The hat looks nice on any occasion! But save for the hot weather."]
+      }
+    },
+    "parent": "node_18_1526918149721",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:hat && @clothItem != 'stribetTroje'",
+    "description": null,
+    "dialog_node": "node_1_1526918419019",
+    "previous_sibling": "node_20_1526918329785"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["I would have chosen the hat, but that looks nice too! Hey look! I found Waldo!"]
+      }
+    },
+    "parent": "node_18_1526918149721",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:stribetTroje && @clothItem != 'hat'",
+    "description": null,
+    "dialog_node": "node_20_1526918329785",
+    "previous_sibling": "node_19_1526918253918"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["You are definitely prepared for the summer now. Or an Olsen gang movie.."]
+      }
+    },
+    "parent": "node_18_1526918149721",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:stribetTroje && @clothItem:hat",
+    "description": null,
+    "dialog_node": "node_19_1526918253918",
+    "previous_sibling": null
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["I would have gone with the shirt, but this looks good, too! Go get them, handsome."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_5_1526574215644",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:habitjakke && @clothItem != ' ternetSkjorte'",
+    "description": null,
+    "dialog_node": "node_9_1526574638429",
+    "previous_sibling": "node_8_1526574582664"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["I would have chosen the jacket, but this looks fine, too! Not so fancy, though."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_5_1526574215644",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:ternetSkjorte && @clothItem != 'habitjakke'",
+    "description": null,
+    "dialog_node": "node_10_1526574661026",
+    "previous_sibling": "node_9_1526574638429"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["Now you are ready for a fancy cocktail party. Sorry I can't help you with the tie."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_5_1526574215644",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:ternetSkjorte && @clothItem:habitjakke",
+    "description": null,
+    "dialog_node": "node_8_1526574582664",
+    "previous_sibling": null
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["Going to a fancy event I see? Try out the checkered shirt and show me show you look."]
+      }
+    },
+    "parent": "node_4_1526574185735",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:habitjakke",
+    "description": null,
+    "dialog_node": "node_7_1526917533614",
+    "previous_sibling": "node_6_1526916940802"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["You picked the striped shirt! If you want to look really fancy, go pick the black jacket and show me how you look."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_4_1526574185735",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:ternetSkjorte",
+    "description": null,
+    "dialog_node": "node_6_1526916940802",
+    "previous_sibling": "node_5_1526574215644"
+  }, {
+    "type": "standard",
+    "title": "Result cases",
+    "output": {},
+    "parent": "node_4_1526574185735",
+    "context": null,
+    "metadata": {
+      "_customization": {
+        "mcr": true
+      }
+    },
+    "next_step": null,
+    "conditions": "#clothResult",
+    "description": null,
+    "dialog_node": "node_5_1526574215644",
+    "digress_out": "allow_all",
+    "previous_sibling": null
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["ROAR! I think Tarzan just followed you on Instagram."]
+      }
+    },
+    "parent": "node_6_1526918509128",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:flintstones && @clothItem:halstoerklaede",
+    "description": null,
+    "dialog_node": "node_17_1526919401112",
+    "previous_sibling": "node_16_1526919400055"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["Scarfs are nice for any danish weather. We'll go on jungle safari another time."]
+      }
+    },
+    "parent": "node_6_1526918509128",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:halstoerklaede && @clothItem != 'flintstones'",
+    "description": null,
+    "dialog_node": "node_16_1526919400055",
+    "previous_sibling": "node_15_1526919389658"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["ROAR! I think Tarzan just followed you on Instagram."]
+      }
+    },
+    "parent": "node_6_1526918509128",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:flintstones && @clothItem != 'halstoerklaede'",
+    "description": null,
+    "dialog_node": "node_15_1526919389658",
+    "previous_sibling": null
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["You are ready for a Flintstone Musical! But jungles can be cold at night. Try pick the scarf and show me how you look."]
+      }
+    },
+    "parent": "node_4_1526918501621",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:flintstones",
+    "description": null,
+    "dialog_node": "node_13_1526919136752",
+    "previous_sibling": "node_6_1526918509128"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["The scarf looks good on you! Do you like jungles? Try pick the tiger skirt and show me how you look."]
+      }
+    },
+    "parent": "node_4_1526918501621",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:halstoerklaede",
+    "description": null,
+    "dialog_node": "node_14_1526919143858",
+    "previous_sibling": "node_13_1526919136752"
+  }, {
+    "type": "standard",
+    "title": "Result cases",
+    "output": {},
+    "parent": "node_4_1526918501621",
+    "context": null,
+    "metadata": {
+      "_customization": {
+        "mcr": true
+      }
+    },
+    "next_step": null,
+    "conditions": "#clothResult",
+    "description": null,
+    "dialog_node": "node_6_1526918509128",
+    "digress_out": "allow_all",
+    "previous_sibling": null
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["I see you picked the tank top!"]
+      }
+    },
+    "parent": "node_2_1526574076811",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:asiatiskTanktop",
+    "description": null,
+    "dialog_node": "node_2_1526916090604",
+    "previous_sibling": "node_1_1526916081574"
+  }, {
+    "type": "standard",
+    "title": "Result cases",
+    "output": {},
+    "parent": "node_2_1526574076811",
+    "context": null,
+    "metadata": {
+      "_customization": {
+        "mcr": true
+      }
+    },
+    "next_step": null,
+    "conditions": "#clothResult",
+    "description": null,
+    "dialog_node": "node_3_1526574118507",
+    "digress_out": "allow_all",
+    "previous_sibling": "node_2_1526916090604"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["I see you picked the blue shorts!"],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_2_1526574076811",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:blaaShorts",
+    "description": null,
+    "dialog_node": "node_1_1526916081574",
+    "previous_sibling": null
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["That is surely a fancy shirt you have picked. I think the flowered jacket would look great with that."]
+      }
+    },
+    "parent": "node_3_1526918499493",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:cirkelskjorte",
+    "description": null,
+    "dialog_node": "node_19_1526919699813",
+    "previous_sibling": "node_18_1526919689799"
+  }, {
+    "type": "response_condition",
+    "title": null,
+    "output": {
+      "text": {
+        "values": ["You look good in flowers! If you want to look a little fancy, try pick the dotted shirt and show me how you look!"]
+      }
+    },
+    "parent": "node_3_1526918499493",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@clothItem:blomsterJakke",
+    "description": null,
+    "dialog_node": "node_18_1526919689799",
+    "previous_sibling": "node_7_1526918511543"
+  }, {
+    "type": "standard",
+    "title": "Result cases",
+    "output": {},
+    "parent": "node_3_1526918499493",
+    "context": null,
+    "metadata": {
+      "_customization": {
+        "mcr": true
+      }
+    },
+    "next_step": null,
+    "conditions": "#clothResult",
+    "description": null,
+    "dialog_node": "node_7_1526918511543",
+    "digress_out": "allow_all",
+    "previous_sibling": null
+  }, {
+    "type": "standard",
+    "title": "blaa shorts og asiatisk tanktop",
+    "output": {},
+    "parent": null,
+    "context": null,
+    "metadata": {
+      "_customization": {
+        "mcr": true
+      }
+    },
+    "next_step": null,
+    "conditions": "#suggestClothing && @clothItem:blaaShorts || @clothItem:asiatiskTanktop",
+    "digress_in": "does_not_return",
+    "description": null,
+    "dialog_node": "node_2_1526574076811",
+    "digress_out": "allow_all",
+    "previous_sibling": "node_23_1526920513328"
+  }, {
+    "type": "standard",
+    "title": "Blomstret jakke og cirkelmoenstret skjorte",
+    "output": {},
+    "parent": null,
+    "context": null,
+    "metadata": {
+      "_customization": {
+        "mcr": true
+      }
+    },
+    "next_step": null,
+    "conditions": "#suggestClothing && @clothItem:blomsterJakke || @clothItem:cirkelskjorte",
+    "digress_in": "does_not_return",
+    "description": null,
+    "dialog_node": "node_3_1526918499493",
+    "digress_out": "allow_all",
+    "previous_sibling": "node_2_1526918496721"
+  }, {
+    "type": "standard",
+    "title": "Anything else",
+    "output": {
+      "text": {
+        "values": ["I have a bad hearing. Can you please repeat?", "Can you reword your statement? I'm not understanding.", "I didn't get your meaning. Can you please repeat?", "I'm not understanding. Can you please repeat?"],
+        "selection_policy": "random"
+      }
+    },
+    "parent": null,
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "anything_else",
+    "description": null,
+    "dialog_node": "Anything else",
+    "previous_sibling": "node_1_1526858033009"
+  }, {
+    "type": "standard",
+    "title": "Error in Transcription",
+    "output": {
+      "text": {
+        "values": ["I'm sorry, I have a bad hearing. Can you please repeat?"],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": null,
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "#ERRORTRANSCRIBING",
+    "description": null,
+    "dialog_node": "node_1_1526858033009",
+    "previous_sibling": "node_1_1526557942146"
+  }, {
+    "type": "standard",
+    "title": "Error in Classification",
+    "output": {
+      "text": {
+        "values": ["I am sorry, but I could not see an item from the hanger. Let me know when you are ready to take a picture again."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": null,
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "#ErrorInClassification",
+    "description": null,
+    "dialog_node": "node_1_1526557942146",
+    "previous_sibling": "node_15_1526917959813"
+  }, {
+    "type": "standard",
+    "title": "Goodbye",
+    "output": {
+      "text": {
+        "values": ["Thank you for your time!", "Smell you later! I hope we meet again.", "See you later!", "This was fun! We should do it again some time!", "Goodbye. I hope we meet again."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": null,
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "#goodbye",
+    "description": null,
+    "dialog_node": "node_23_1526920513328",
+    "previous_sibling": "node_4_1519200209814"
+  }, {
+    "type": "standard",
+    "title": "Cirkelmoenstret kjole og bandana",
+    "output": {},
+    "parent": null,
+    "context": null,
+    "metadata": {
+      "_customization": {
+        "mcr": true
+      }
+    },
+    "next_step": null,
+    "conditions": "#suggestClothing && @clothItem:bandana || @clothItem:cirkelKjole",
+    "digress_in": "does_not_return",
+    "description": null,
+    "dialog_node": "node_2_1526918496721",
+    "digress_out": "allow_all",
+    "previous_sibling": "node_4_1526574185735"
+  }, {
+    "type": "standard",
+    "title": "Rødstribet trøje og hat",
+    "output": {},
+    "parent": null,
+    "context": null,
+    "metadata": {
+      "_customization": {
+        "mcr": true
+      }
+    },
+    "next_step": null,
+    "conditions": "#suggestClothing && @clothItem:stribetTroje || @clothItem:hat",
+    "digress_in": "does_not_return",
+    "description": null,
+    "dialog_node": "node_15_1526917959813",
+    "digress_out": "allow_all",
+    "previous_sibling": "node_4_1526918501621"
+  }, {
+    "type": "standard",
+    "title": "Ternet skjorte og habitjakke",
+    "output": {},
+    "parent": null,
+    "context": null,
+    "metadata": {
+      "_customization": {
+        "mcr": true
+      }
+    },
+    "next_step": null,
+    "conditions": "#suggestClothing && @clothItem:ternetSkjorte || @clothItem:habitjakke",
+    "digress_in": "does_not_return",
+    "description": null,
+    "dialog_node": "node_4_1526574185735",
+    "digress_out": "allow_all",
+    "previous_sibling": "node_2_1526574076811"
+  }, {
+    "type": "standard",
+    "title": "Welcome",
+    "output": {
+      "text": {
+        "values": ["Nice to meet you, $username ! And what can I do for you?"],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": null,
+    "context": {
+      "username": "@sys-person.literal"
+    },
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@sys-person && #name",
+    "description": null,
+    "dialog_node": "node_4_1519200209814",
+    "previous_sibling": "node_6_1519201095873"
+  }, {
+    "type": "standard",
+    "title": "Flintstone og halstoerklaede",
+    "output": {},
+    "parent": null,
+    "context": null,
+    "metadata": {
+      "_customization": {
+        "mcr": true
+      }
+    },
+    "next_step": null,
+    "conditions": "#suggestClothing && @clothItem:flintstones || @clothItem:halstoerklaede",
+    "digress_in": "does_not_return",
+    "description": null,
+    "dialog_node": "node_4_1526918501621",
+    "digress_out": "allow_all",
+    "previous_sibling": "node_3_1526918499493"
+  }, {
+    "type": "standard",
+    "title": "conversation_start",
+    "output": {
+      "text": {
+        "values": ["Hi there! What's your name?"],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": null,
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "welcome",
+    "description": null,
+    "dialog_node": "node_6_1519201095873",
+    "previous_sibling": null
+  }],
+  "workspace_id": "e2293721-8e92-4be4-bdb7-e4c0a340393e",
+  "counterexamples": [],
+  "learning_opt_out": false
+}

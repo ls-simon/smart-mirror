@@ -9,7 +9,7 @@ if (response.intent == TAKE_FIRST_PICTURE){
 	if (classes[0].score > MINIMUM_SCORE_BOUNDARY){
 
 	   intentAndClassification = SUGGEST_CLOTHING_INTENT + " " + JSON.stringify(classes[0].class);
-}
+	 }
 }
 
 if (response.intent == TAKE_SECOND_PICTURE){
@@ -17,7 +17,7 @@ if (response.intent == TAKE_SECOND_PICTURE){
 
 	  intentAndClassification = CLOTH_RESULT_INTENT + " " + JSON.stringify(classes[0].class)
   	+ " " + JSON.stringify(classes[1].class);
-}
+	}
 }
 
 	sendMessage(intentAndClassification);

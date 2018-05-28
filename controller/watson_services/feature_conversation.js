@@ -7,88 +7,90 @@ const maintainToneHistoryInContext = true;
 var conversation = getConversationInstance();
 var toneAnalyzer = getToneAnalyzerInstance();
 
- function getResponse(req, res){
+function getResponse(req, res) {
 
-    let message = req.body.message;
-    checkIfMessageWasReceived(message);
+  let message = req.body.message;
+  let context = req.body.context;
+  checkIfMessageWasReceived(message);
+  var formattedMessage = getMessageWithWorkspaceID(JSON.stringify(message), context);
 
-    var formattedMessage = getMessageWithWorkspaceID(JSON.stringify(message));
+  conversation.message(formattedMessage, async function(err, response) {
+    if (err) {
+      console.log("Error sending message: " + err);
+    } else {
+      // I send the tone result to the client for now since it's only detected in longer messages
+      // No functionality, just printing.
 
-       conversation.message(formattedMessage,
-
-         async function(err, response) {
-             if (err) {
-                 console.log("Error sending message: " + err);
-             } else {
-           	// I send the tone result to the client for now since it's only detected in longer messages
-		        // No functionality, just printing.
-
-	        var toneAnalyzation = await getToneAnalyzation(formattedMessage).then((tones)=> {
-
-		tones = !tones ? "no tone" : tones;
-		res.send({response: response, tones: tones});
-                	}).catch((error)=>{
-		console.log('Error occured: ', error);
-});
-		  }
+      var toneAnalyzation = await getToneAnalyzation(formattedMessage).then((tones) => {
+        tones = !tones ? "no tone" : tones;
+        res.send({
+          response: response,
+          tones: tones
+        });
+      }).catch((error) => {
+        console.log('Error occured: ', error);
+      });
+    }
   })
 }
 
 
-    function getToneAnalyzation(formattedMessage){
+function getToneAnalyzation(formattedMessage) {
 
-    var params = {
+  var params = {
     'tone_input': formattedMessage.input.text,
     'content_type': 'text/plain'
-  	};
+  };
 
-	return new Promise(function(resolve, reject){
+  return new Promise(function(resolve, reject) {
 
-
-  	toneAnalyzer.tone(params, function(error, response) {
-		if (!error) {
-		 resolve(response);
-    		} else {
-		 reject(new Error('Could not detect tone in message'));
-		}
+    toneAnalyzer.tone(params, function(error, response) {
+      if (!error) {
+        resolve(response);
+      } else {
+        reject(new Error('Could not detect tone in message'));
+      }
+    })
   })
-  })
-  }
+}
 
-function checkIfMessageWasReceived(message){
-  if (!message){
+function checkIfMessageWasReceived(message) {
+  if (!message) {
     throw new Error("Message was not received");
   }
 }
 
 
-function getMessageWithWorkspaceID(message){
-  return { input: {
-            text: message },
-          workspace_id: credentials.conversations.workspace
-        };
+function getMessageWithWorkspaceID(message, context) {
+  return {
+    input: {
+      text: message
+    },
+    context: context,
+    workspace_id: credentials.conversations.workspace
+  };
 }
 
 
 
-function getConversationInstance(){
+function getConversationInstance() {
   return new ConversationV1({
     username: credentials.conversations.username,
     password: credentials.conversations.password,
     url: credentials.conversations.url,
     version_date: credentials.conversations.version
-});
+  });
 }
 
-function getToneAnalyzerInstance(){
+function getToneAnalyzerInstance() {
   return new ToneAnalyzerV3({
-      username: credentials.tone_analyzer.username,
-      password: credentials.tone_analyzer.password,
-      version_date: credentials.tone_analyzer.version
+    username: credentials.tone_analyzer.username,
+    password: credentials.tone_analyzer.password,
+    version_date: credentials.tone_analyzer.version
   })
 }
 
-if(typeof exports !== 'undefined') {
+if (typeof exports !== 'undefined') {
   exports.getResponse = getResponse;
   exports.getToneAnalyzerInstance = getToneAnalyzerInstance;
   exports.getConversationInstance = getConversationInstance;

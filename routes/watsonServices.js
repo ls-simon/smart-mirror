@@ -6,7 +6,7 @@ var visualRecognition = require('./../controller/watson_services/feature_visualR
 var bodyParser = require('body-parser');
 
 router.get('/transcribeSpeechToText', speechToText.transcribeSpeechToText);
-router.post('/textToSpeechInput',speechToText.synthesizeAndWrite);
+router.post('/textToSpeechInput', speechToText.synthesizeAndWrite);
 router.post('/conversationMessage', conversation.getResponse);
 router.post('/classifyImage', visualRecognition.classifyImage);
 

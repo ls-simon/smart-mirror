@@ -1,12 +1,13 @@
 
 
 let textResponse, analyzedTone, message;
+let context = {};
 
 var sendMessage = function (actionMessage) {
-
     message = setMessageToInputOrAction(actionMessage);
     var request = {};
     request.message = message;
+    request.context = context;
     console.log("Sending message: " + request.message);
     sendAjaxRequest("POST", '/watson/conversationMessage', JSON.stringify(request));
     }
@@ -37,7 +38,7 @@ function processResponse(response, url){
 }
 
 function setResponseResults(response) {
-
+    context = response.response.context ? response.response.context : {};
     textResponse = JSON.stringify(response.response.output.text[0]);
     var intent = typeof response.response.intents[0] === 'undefined' ? "no intent" : response.response.intents[0].intent;
 
@@ -46,8 +47,8 @@ function setResponseResults(response) {
 
 	//Optional: Do something with the tone result or append to HTML in appendResponseInChatWindow
 
-	analyzedTone = response.tones.document_tone.tones[0].tone_name;
-        console.log("\nAnalyzed tone is " + analyzedTone + "\n");
+	       analyzedTone = response.tones.document_tone.tones[0].tone_name;
+         console.log("\nAnalyzed tone is " + analyzedTone + "\n");
 		}
 	}
 
@@ -56,7 +57,7 @@ function setResponseResults(response) {
  }
 
  function handleResponseAsActionOrMessage(intent){
- console.log('intent: ' + intent);
+ console.log('intent found: ' + intent);
   if (intent == TAKE_FIRST_PICTURE || intent == TAKE_SECOND_PICTURE){
      takeSnapshotAndSendToClassifier(intent);
    } else {

@@ -16,22 +16,22 @@ chai.use(chaiHttp);
 
 describe('controller/utils/pi_webcam.js', () => {
 
-  describe('takeSnapshotWithTimestamp()', () =>{
-    it('should return a timestamp string from picam.sh in correct format', () =>{
+  describe('takeSnapshotWithTimestamp()', () => {
+    it('should return a timestamp string from picam.sh in correct format', () => {
       assert(picam.takeSnapshotWithTimestamp.match(timestampFormat), 'snapshot timestamp is valid format');
+    })
   })
-})
 
   describe('GET /takeSnapshot', () => {
     it('should run script and return file path', (done) => {
       chai.request(app)
-          .get(routePath)
-          .end((error, response) => {
-              response.should.have.status(200);
-              response.should.be.an('object');
-              assert(response.body.filePath.match('\.jpg'), 'file path should be a valid format');
-            done();
-          });
+        .get(routePath)
+        .end((error, response) => {
+          response.should.have.status(200);
+          response.should.be.an('object');
+          assert(response.body.filePath.match('\.jpg'), 'file path should be a valid format');
+          done();
+        });
     });
-});
+  });
 });
