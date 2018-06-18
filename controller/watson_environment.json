@@ -2,36 +2,36 @@
   "speech_to_text": {
     "version": "v1",
     "url": "https://stream.watsonplatform.net/speech-to-text/api",
-    "username": "c9de45b1-5bc2-441d-a1a9-00c0564d1044",
-    "password": "ZbXsz4nIonB1"
+    "username": "",
+    "password": ""
   },
   "text_to_speech": {
     "version": "v1",
     "url": "https://stream.watsonplatform.net/text-to-speech/api",
-    "username": "237c62f1-dad3-42d7-971e-5236b073059f",
-    "password": "rvV8VBd4QsXN"
+    "username": "",
+    "password": ""
   },
   "conversations": {
     "version": "2017-05-26",
     "url": "https://gateway.watsonplatform.net/conversation/api",
-    "username": "912193b6-ece0-4278-a25e-4f40a0a0f8a9",
-    "password": "gtnXj8ondZ76",
-    "workspace": "e2293721-8e92-4be4-bdb7-e4c0a340393e"
+    "username": "",
+    "password": "",
+    "workspace": ""
   },
 
   "visual_recognition": {
     "url": "https://gateway-a.watsonplatform.net/visual-recognition/api",
     "version": "v3",
     "version_date": "2016-05-20",
-    "api_key": "bf560df6741020678772fd42480c49472f3f2f31",
-    "customClassifierIds": ["clothItems_1704531461"]
+    "api_key": "",
+    "customClassifierIds": [""]
   },
   "tone_analyzer": {
-    "name": "tan-1511-tone-analy-1519226128313",
+    "name": "",
     "plan": "lite",
     "url": "https://gateway.watsonplatform.net/tone-analyzer/api",
-    "username": "dd2bd5d2-3de7-4474-ad89-284d4b32fe43",
-    "password": "QrfWsBt6hTJx",
+    "username": "",
+    "password": "",
     "version": "2017-09-21"
 
   },
@@ -40,8 +40,8 @@
     "plan": "lite",
     "credentials": {
       "url": "https://gateway.watsonplatform.net/discovery/api",
-      "username": "f729f5fa-302a-458d-a2e0-247477c75d12",
-      "password": "BbH7qOTmaFbY"
+      "username": "",
+      "password": ""
     }
   }]
 }
