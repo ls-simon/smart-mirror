@@ -1,6 +1,7 @@
 # Smart Mirror
 
-Smart mirror is a voice chatbot who can tell which cloth item the user is wearing and suggest an additional cloth item that fits.
+This [smart mirror](https://imgur.com/a/EB25dZO) is a voice chatbot who can tell which cloth item the user is wearing and suggest an additional cloth item that fits.
+
 
 ## Hardware
 There are many examples on how to build your own smart mirror. The hardware requirements for this project are:
